@@ -1,0 +1,77 @@
+indx_short_name,indx,category,indx_long_name,definition,description,Units,Timescale,Sector
+CDD,cdd,Drought indices,Consecutive Dry Days,Maximum number of consecutive dry days (when PR < 1.0 mm),Longest dry spell,days,Ann,"H, AFS, WRH"
+CDDcoldn,cddcold18,Heat indices,Cooling Degree Days,Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM > n),A measure of the energy demand needed to cool a building,degree-days,Ann,H
+CSDI,csdi,Cold indices,Cold spell duration indicator,Annual number of days contributing to events where 6 or more consecutive days experience TN < 10th percentile,Number of days contributing to a cold period (where the period has to be at least 6 days long),days,Ann,"H, AFS"
+CSDId,csdi5,Cold indices,User-defined CSDI,Annual number of days contributing to events where d or more consecutive days experience TN < 10th percentile,Number of days contributing to a cold period (where the minimum length is user-specified),days,Ann,"H, AFS, WRH"
+CWD,cwd,Precipitation indices,Consecutive Wet Days,Maximum annual number of consecutive wet days (when PR >= 1.0 mm),The longest wet spell,days,Ann,
+DTR,dtr,Heat indices,Daily Temperature Range,Mean difference between daily TX and daily TN,Average range of maximum and minimum temperature,C,Mon/Ann,
+FD,fd,Cold indices,Frost Days,Number of days when TN < 0 C,Days when minimum temperature is below 0C,days,Mon/Ann,"H, AFS"
+GDDgrown,gddgrow10,Cold indices,Growing Degree Days,Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM > n),A measure of heat accumulation to predict plant and animal developmental rates,degree-days,Ann,"H, AFS"
+GSL,gsl,Cold indices,Growing Season Length,Annual number of days between the first occurrence of 6 consecutive days with TM > 5 C and the first occurrence of 6 consecutive days with TM < 5 C,Length of time in which plants can grow,days,Ann,AFS
+HDDheatn,hddheat18,Heat indices,Heating Degree Days,Annual sum of n - TM (where n is a user-defined location-specific base temperature and TM < n),A measure of the energy demand needed to heat a building,degree-days,Ann,H
+ID,id,Cold indices,Ice Days,Number of days when TX < 0 C,Days when maximum temperature is below 0C,days,Mon/Ann,"H, AFS"
+PRCPTOT,prcptot,Precipitation indices,Annual total wet-day precipitation,Sum of daily PR >= 1.0 mm,Total wet-day rainfall,mm,Mon/Ann,"AFS, WRH"
+R10mm,r10mm,Precipitation indices,Number of heavy rain days,Number of days when PR >= 10 mm,Days when rainfall is at least 10mm,days,Mon/Ann,
+R20mm,r20mm,Precipitation indices,Number of very heavy rain days,Number of days when PR >= 20 mm,Days when rainfall is at least 20mm,days,Mon/Ann,"AFS, WRH"
+R95p,r95p,Precipitation indices,Total annual precipitation from heavy rain days,Annual sum of daily PR > 95th percentile,Amount of rainfall from very wet days,mm,Ann,
+R95pTOT,r95ptot,Precipitation indices,Contribution from very wet days,100*r95p / PRCPTOT,Fraction of total wet-day rainfall that comes from very wet days,%,Ann,"AFS, WRH"
+R99p,r99p,Precipitation indices,Total annual precipitation from very heavy rain days,Annual sum of daily PR > 99th percentile,Amount of rainfall from extremely wet days,mm,Ann,
+R99pTOT,r99ptot,Precipitation indices,Contribution from extremely wet days,100*r99p / PRCPTOT,Fraction of total wet-day rainfall that comes from extremely wet days,%,Ann,"AFS, WRH"
+Rnnmm,r30mm,Precipitation indices,Number of customised rain days,Number of days when PR >= nn,Days when rainfall is at least a user-specified number of mm,days,Mon/Ann,
+Rx1day,rx1day,Precipitation indices,Max 1-day precipitation,Maximum 1-day PR total,Maximum amount of rain that falls in one day,mm,Mon/Ann,
+Rx5day,rx5day,Precipitation indices,Max 5-day precipitation,Maximum 5-day PR total,Maximum amount of rain that falls in five consecutive days,mm,Mon/Ann,
+RXdday,rx7day,Precipitation indices,User-defined consecutive days PR amount,Maximum d-day PR total,Maximum amount of rain that falls in a user-specified period,mm,Mon/Ann,"H, AFS, WRH"
+SDII,sdii,Precipitation indices,Daily precipitation intensity,Annual total PR divided by the number of wet days (when total PR >= 1.0 mm),Average daily wet-day rainfall intensity,mm/day,Ann,
+SU,su,Heat indices,Summer days,Number of days when TX > 25 C,Days when maximum temperature exceeds 25C,days,Mon/Ann,H
+TMge10,tmge10,Heat indices,Mean temperature of at least 10C,Number of days when TM >= 10 C,Days when average temperature is at least 10C,days,Mon/Ann,AFS
+TMge5,tmge5,Heat indices,Mean temperature of at least 5C,Number of days when TM >= 5 C,Days when average temperature is at least 5C,days,Mon/Ann,AFS
+TMlt10,tmlt10,Heat indices,Mean temperature below 10C,Number of days when TM < 10 C,Days when average temperature is below 10C,days,Mon/Ann,AFS
+TMlt5,tmlt5,Cold indices,Mean temperature below 5C,Number of days when TM < 5 C,Days when average temperature is below 5C,days,Mon/Ann,AFS
+TMm,tmm,Heat indices,Mean daily mean temperature,Mean daily mean temperature,Average daily temperature,C,Mon/Ann,
+TN10p,tn10p,Cold indices,Amount of cold nights,Percentage of days when TN < 10th percentile,Fraction of days with cold night time temperatures,%,Ann,
+TN90p,tn90p,Heat indices,Amount of warm nights,Percentage of days when TN > 90th percentile,Fraction of days with warm night time temperatures,%,Ann,
+TNlt2,tnlt2,Cold indices,Minimum temperature below 2C,Number of days when TN < 2 C,Days when minimum temperature is below 2C,days,Mon/Ann,AFS
+TNltm2,tnltm2,Cold indices,Minimum temperature below -2C,Number of days when TN < -2 C,Days when minimum temperature is below -2C,days,Mon/Ann,AFS
+TNltm20,tnltm20,Cold indices,Minimum temperature below -20C,Number of days when TN < -20 C,Days when minimum temperature is below -20C,days,Mon/Ann,"H, AFS"
+TNm,tnm,Cold indices,Mean daily minimum temperature,Mean daily minimum temperature,Average daily minimum temperature,C,Mon/Ann,
+TNn,tnn,Cold indices,Min daily minimum temperature,Coldest daily TN,Coldest night,C,Mon/Ann,AFS
+TNx,tnx,Cold indices,Max daily minimum temperature,Warmest daily TN,Hottest night,C,Mon/Ann,
+TR,tr,Heat indices,Tropical nights,Number of days when TN > 20 C,Days when minimum temperature exceeds 20C,days,Mon/Ann,"H,AFS"
+TX10p,tx10p,Heat indices,Amount of cool days,Percentage of days when TX < 10th percentile,Fraction of days with cool day time temperatures,%,Ann,
+TX90p,tx90p,Heat indices,Amount of hot days,Percentage of days when TX > 90th percentile,Fraction of days with hot day time temperatures,%,Ann,
+TXbdTNbd,txb3tnb3,Heat indices,User-defined consecutive number of cold days and nights,"Annual number of d consecutive days where both TX < 5th percentile and TN < 5th percentile, where 10 >= d >=2",Total consecutive cold days and cold nights (where consecutive periods are user-specified),events,Ann,"H, AFS, WRH"
+TXdTNd,tx3tn3,Heat indices,User-defined consecutive number of hot days and nights,"Annual count of d consecutive days where both TX > 95th percentile and TN > 95th percentile, where 10 >= d >= 2",Total consecutive hot days and hot nights (where consecutive periods are user-specified),events,Ann,"H, AFS, WRH"
+TXge30,txge30,Heat indices,Maximum temperature of at least 30C,Number of days when TX >= 30 C,Days when maximum temperature is at least 30C,days,Mon/Ann,"H, AFS"
+TXge35,txge35,Heat indices,Maximum temperature of at least 35C,Number of days when TX >= 35 C,Days when maximum temperature is at least 35C,days,Mon/Ann,"H, AFS"
+TXgt50p,txgt50p,Heat indices,Fraction of days with temperatures above the median,Percentage of days where TX > 50th percentile,Fraction of days with above-median temperature,%,Mon/Ann,"H, AFS, WRH"
+TXm,txm,Heat indices,Mean daily maximum temperature,Mean daily maximum temperature,Average daily maximum temperature,C,Mon/Ann,
+TXn,txn,Cold indices,Min daily maximum temperature,Coldest daily TX,Coldest day,C,Mon/Ann,
+TXx,txx,Heat indices,Max daily maximum temperature,Warmest daily TX,Hottest day,C,Mon/Ann,AFS
+WSDI,wsdi,Heat indices,Warm spell duration indicator,Annual number of days contributing to events where 6 or more consecutive days experience TX > 90th percentile,Number of days contributing to a warm period (where the period has to be at least 6 days long),days,Ann,"H, AFS, WRH"
+WSDId,wsdi5,Heat indices,User-defined WSDI,Annual number of days contributing to events where d or more consecutive days experience TX > 90th percentile,Number of days contributing to a warm period (where the minimum length is user-specified),days,Ann,"H, AFS, WRH"
+CWA_ECF,cwa_ecf,Coldwave indices,Coldwave amplitude as defined by the Excess Cold Factor,The minimum daily value in the coldest coldwave (defined as the coldwave with lowest ECF_HWM).,The minimum daily value in the coldest coldwave (defined as the coldwave with lowest ECF_HWM).,C^2,Ann,"H, AFS, WRH"
+CWD_ECF,cwd_ecf,Coldwave indices,Coldwave duration as defined by the Excess Cold Factor,The length of the longest coldwave identified by ECF_HWN.,The length of the longest coldwave identified by ECF_HWN.,days,Ann,"H, AFS, WRH"
+CWF_ECF,cwf_ecf,Coldwave indices,Coldwave frequency  as defined by the Excess Cold Factor ,The number of days that contribute to coldwaves as identified by ECF_HWN.,The number of days that contribute to coldwaves as identified by ECF_HWN.,days,Ann,"H, AFS, WRH"
+CWM_ECF,cwm_ecf,Coldwave indices,Coldwave magnitude as defined by the Excess Cold Factor,The mean temperature of all coldwaves identified by ECF_HWN.,The mean temperature of all coldwaves identified by ECF_HWN.,C^2,Ann,"H, AFS, WRH"
+CWN_ECF,cwn_ecf,Coldwave indices,Coldwave number as defined by the Excess Cold Factor ,The number of individual coldwaves that occur each year.,The number of individual coldwaves that occur each year.,events,Ann,"H, AFS, WRH"
+HWA_EHF,hwa_ehf,Heatwave indices,Heatwave amplitude as defined by  the Excess Heat Factor,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWA_TN90,hwa_tn90,Heatwave indices,Heatwave amplitude as defined by  the 90th percentile of TN,The length of the longest heatwave identified by HWN.,The length of the longest heatwave identified by HWN.,days,Ann,"H, AFS, WRH"
+HWA_TX90,hwa_tx90,Heatwave indices,Heatwave amplitude as defined by  the 90th percentile of TX,The number of days that contribute to heatwaves as identified by HWN.,The number of days that contribute to heatwaves as identified by HWN.,days,Ann,"H, AFS, WRH"
+HWD_EHF,hwd_ehf,Heatwave indices,Heatwave duration  as defined by  the Excess Heat Factor ,The mean temperature of all heatwaves identified by HWN.,The mean temperature of all heatwaves identified by HWN.,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWD_TN90,hwd_tn90,Heatwave indices,Heatwave duration  as defined by  the 90th percentile of TN,The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere),The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere),no,Ann,"H, AFS, WRH"
+HWD_TX90,hwd_tx90,Heatwave indices,Heatwave duration as defined by  the 90th percentile of TX,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWF_EHF,hwf_ehf,Heatwave indices,Heatwave frequency as defined by  the Excess Heat Factor,The length of the longest heatwave identified by HWN.,The length of the longest heatwave identified by HWN.,days,Ann,"H, AFS, WRH"
+HWF_TN90,hwf_tn90,Heatwave indices,Heatwave frequency  as defined by  the 90th percentile of TN,The number of days that contribute to heatwaves as identified by HWN.,The number of days that contribute to heatwaves as identified by HWN.,days,Ann,"H, AFS, WRH"
+HWF_TX90,hwf_tx90,Heatwave indices,Heatwave frequency as defined by  the 90th percentile of TX,The mean temperature of all heatwaves identified by HWN.,The mean temperature of all heatwaves identified by HWN.,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWM_EHF,hwm_ehf,Heatwave indices,Heatwave magnitude as defined by  the Excess Heat Factor,The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere).,The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere).,no,Ann,"H, AFS, WRH"
+HWM_TN90,hwm_tn90,Heatwave indices,Heatwave magnitude as defined by  the 90th percentile of TN,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWM_TX90,hwm_tx90,Heatwave indices,Heatwave magnitude as defined by  the 90th percentile of TX,The length of the longest heatwave identified by HWN.,The length of the longest heatwave identified by HWN.,days,Ann,"H, AFS, WRH"
+HWN_EHF,hwn_ehf,Heatwave indices,Heatwave number as defined by  the Excess Heat Factor ,The number of days that contribute to heatwaves as identified by HWN.,The number of days that contribute to heatwaves as identified by HWN.,days,Ann,"H, AFS, WRH"
+HWN_TN90,hwn_tn90,Heatwave indices,Heatwave number as defined by  the 90th percentile of TN,The mean temperature of all heatwaves identified by HWN.,The mean temperature of all heatwaves identified by HWN.,C (C^2 for EHF),Ann,"H, AFS, WRH"
+HWN_TX90,hwn_tx90,Heatwave indices,Heatwave number as defined by  the 90th percentile of TX,The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere),The number of individual heatwaves that occur each summer (May – Sep in northern hemisphere),no,Ann,"H, AFS, WRH"
+SPEI12,spei12,Drought indices,Standardised Precipitation Evapotranspiration Index- 12 months,Measure of drought using the SPEI 12 months,A drought measure specified using precipitation and evaporation,unitless,Mon,"H, AFS, WRH"
+SPEI3,spei3,Drought indices,Standardised Precipitation Evapotranspiration Index- 3 months,Measure of drought using the SPEI 3 months,A drought measure specified using precipitation and evaporation,unitless,Mon,"H, AFS, WRH"
+SPEI6,spei6,Drought indices,Standardised Precipitation Evapotranspiration Index - 6 months,Measure of drought using the SPEI 6 months,A drought measure specified using precipitation and evaporation,unitless,Mon,"H, AFS, WRH"
+SPI12,spi12,Drought indices,Standardised Precipitation Index- 12 months,Measure of drought using the SPI 12 months,A drought measure specified as a precipitation deficit,unitless,Mon,"H, AFS, WRH"
+SPI3,spi3,Drought indices,Standardised Precipitation Index- 3 months,Measure of drought using the SPI 3 months,A drought measure specified as a precipitation deficit,unitless,Mon,"H, AFS, WRH"
+SPI6,spi6,Drought indices,Standardised Precipitation Index- 6 months,Measure of drought using the SPI 6 months,A drought measure specified as a precipitation deficit,unitless,Mon,"H, AFS, WRH"
