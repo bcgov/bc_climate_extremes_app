@@ -1,84 +1,47 @@
 ---
-title: "Introdcution BC Climate Extremes app"
+title: "BC Climate Extremes app"
 author: "Aseem Sharma"
 date: "`r paste('Date:', format(Sys.time(), '%d %B, %Y'))`"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
+## **Introduction**
+### **Overview**
 
-#### **Overview:**
- The BC climate extremes app aims to provide insights into extreme climate indices across British Columbia (BC) and its sub-regions (eco-provinces and major watersheds). This tool provides over 50 extreme climate indices outlined and developed through the World Meteorological Organization (WMO) Commission for Climatology (CCl) Expert Team on Sector-specific Climate Indices (ET-SCI). All the indices were calculated using the Climpact software , a publicly available R based software that heavily uses the R packages  <a href= 'https://pacificclimate.github.io/climdex.pcic/'> climdex.pcic </a>  and <a href= 'https://pacificclimate.github.io/climdex.pcic.ncdf/' > climdex.pcic.ncdf</a> as its core for calculating indices. 
- The <a href='https://ccrc-extremes.shinyapps.io/climpact/'> Climpact software </a> provides details of the indices and their calculation process. Bwlowvis a brief summary table of the indices calculated.
- 
- We used daily minimum and maximum temperatures and precipitation from <a href='https://www.gloh2o.org/mswx/'> MSWX daily data </a> to calculate the extreme indices for the period of 1979 -2023. The MSWX data is <<<<describe >>>
- 
-**Table 1: List of the extreme indices calculated with their descriptions. Table is copied from <a href='https://github.com/ARCCSS-extremes/climpact/blob/master/www/user_guide/Climpact_user_guide.md'> Climpact Github page </a>.Bold indicates indices also recommended by the ETCCDI. **
- 
+<a href='https://bcgov-env.shinyapps.io/bc_climate_extremes_app/'> bc_climate_extremes_app </a>  is a RShiny app that provides information on over 75 climate extreme indices across western north America, BC, and BC’s subregions (ecoprovinces, ecoregions, ecosections, watersheds, and municipalities) using <a href='https://www.gloh2o.org/mswx/'> Multi-Source Weather (MSWX) </a>  data for the period of 1979 - 2023 (as of August 2024). Using the app one can visualize annual and monthly (if applicable) anomalies on climate extreme indices (CEI), their linear trends, and climatology. Also, it provides access to download data, plots, and maps.
 
-|Short name| Long name |Definition|Plain language description|Units|Time scale|Sector(s)|
-|---|---|---|---|---|---|---|
-|FD|Frost Days|Number of days when TN < 0 °C|Days when minimum temperature is below 0°C|days|Mon/Ann|H, AFS|
-|TNlt2|TN below 2°C|Number of days when TN < 2 °C|Days when minimum temperature is below 2°C|days|Mon/Ann|AFS|
-|TNltm2|TN below -2°C|Number of days when TN < -2 °C|Days when minimum temperature is below -2°C|days|Mon/Ann|AFS|
-|TNltm20|TN below -20°C|Number of days when TN < -20 °C|Days when minimum temperature is below -20°C|days|Mon/Ann|H, AFS|
-|ID|Ice Days|Number of days when TX < 0 °C|Days when maximum temperature is below 0°C|days|Mon/Ann|H, AFS|
-|SU|Summer days|Number of days when TX > 25 °C|Days when maximum temperature exceeds 25°C|days|Mon/Ann|H|
-|TR|Tropical nights|Number of days when TN > 20 °C|Days when minimum temperature exceeds 20°C|days|Mon/Ann|H,AFS|
-|GSL|Growing Season Length|Annual number of days between the first occurrence of 6 consecutive days with TM > 5 °C and the first occurrence of 6 consecutive days with TM < 5 °C|Length of time in which plants can grow|days|Ann|AFS|
-|TXx|Max TX|Warmest daily TX|Hottest day|°C|Mon/Ann|AFS|
-|TNn|Min TN|Coldest daily TN|Coldest night|°C|Mon/Ann|AFS|
-|WSDI|Warm spell duration indicator|Annual number of days contributing to events where 6 or more consecutive days experience TX > 90th percentile|Number of days contributing to a warm period (where the period has to be at least 6 days long)|days|Ann|H, AFS, WRH|
-|WSDId|User-defined WSDI|Annual number of days contributing to events where d or more consecutive days experience TX > 90th percentile|Number of days contributing to a warm period (where the minimum length is user-specified)|days|Ann|H, AFS, WRH|
-|CSDI|Cold spell duration indicator|Annual number of days contributing to events where 6 or more consecutive days experience TN < 10th percentile|Number of days contributing to a cold period (where the period has to be at least 6 days long)|days|Ann|H, AFS|
-|CSDId|User-defined CSDI|Annual number of days contributing to events where d or more consecutive days experience TN < 10th percentile|Number of days contributing to a cold period (where the minimum length is user-specified)|days|Ann|H, AFS, WRH|
-|TXgt50p|Fraction of days with temperatures above the median|Percentage of days where TX > 50th percentile|Fraction of days with above-median temperature|%|Mon/Ann|H, AFS, WRH|
-|TX95t|Very warm day threshold|Value of 95th percentile of TX|A threshold where days above this temperature would be classified as very warm|°C|Daily|H, AFS|
-|TMge5|TM of at least 5°C|Number of days when TM >= 5 °C|Days when average temperature is at least 5°C|days|Mon/Ann|AFS|
-|TMlt5|TM below 5°C|Number of days when TM < 5 °C|Days when average temperature is below 5°C|days|Mon/Ann|AFS|
-|TMge10|TM of at least 10°C|Number of days when TM >= 10 °C|Days when average temperature is at least 10°C|days|Mon/Ann|AFS|
-|TMlt10|TM below 10°C|Number of days when TM < 10 °C|Days when average temperature is below 10°C|days|Mon/Ann|AFS|
-|TXge30|TX of at least 30°C|Number of days when TX >= 30 °C|Days when maximum temperature is at least 30°C|days|Mon/Ann|H, AFS|
-|TXge35|TX of at least 35°C|Number of days when TX >= 35 °C|Days when maximum temperature is at least 35°C|days|Mon/Ann|H, AFS|
-|TXdTNd|User-defined consecutive number of hot days and nights|Annual count of d consecutive days where both TX > 95th percentile and TN > 95th percentile, where 10 >= d >= 2|Total consecutive hot days and hot nights (where consecutive periods are user-specified)|events|Ann|H, AFS, WRH|
-|HDDheatn|Heating Degree Days|Annual sum of n - TM (where n is a user-defined location-specific base temperature and TM < n)|A measure of the energy demand needed to heat a building|degree-days|Ann|H|
-|CDDcoldn|Cooling Degree Days|Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM > n)|A measure of the energy demand needed to cool a building|degree-days|Ann|H|
-|GDDgrown|Growing Degree Days|Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM > n)|A measure of heat accumulation to predict plant and animal developmental rates|degree-days|Ann|H, AFS|
-|CDD|Consecutive Dry Days|Maximum number of consecutive dry days (when PR < 1.0 mm)|Longest dry spell|days|Ann|H, AFS, WRH|
-|R20mm|Number of very heavy rain days|Number of days when PR >= 20 mm|Days when rainfall is at least 20mm|days|Mon/Ann|AFS, WRH|
-|PRCPTOT|Annual total wet-day PR|Sum of daily PR >= 1.0 mm|Total wet-day rainfall|mm|Mon/Ann|AFS, WRH|
-|R95pTOT|Contribution from very wet days|100*r95p / PRCPTOT|Fraction of total wet-day rainfall that comes from very wet days|%|Ann|AFS, WRH|
-|R99pTOT|Contribution from extremely wet days|100*r99p / PRCPTOT|Fraction of total wet-day rainfall that comes from extremely wet days|%|Ann|AFS, WRH|
-|RXdday|User-defined consecutive days PR amount|Maximum d-day PR total|Maximum amount of rain that falls in a user-specified period|mm|Mon/Ann|H, AFS, WRH|
-|SPI|Standardised Precipitation Index|Measure of “drought” using the Standardised Precipitation Index on time scales of 3, 6 and 12 months. See [McKee et al. (1993)](#appendixa_refs) and the [WMO SPI User guide (World Meteorological Organization, 2012)](#appendixa_refs) for details.<br>Calculated using the [SPEI R package](https://cran.r-project.org/web/packages/SPEI/index.html).|A drought measure specified as a precipitation deficit|unitless|Custom|H, AFS, WRH|
-|SPEI|Standardised Precipitation Evapotranspiration Index|Measure of “drought” using the Standardised Precipitation Evapotranspiration Index on time scales of 3, 6 and 12 months. See [Vicente-Serrano et al. (2010)](#appendixa_refs) for details.<br>Calculated using the [SPEI R package](https://cran.r-project.org/web/packages/SPEI/index.html).|A drought measure specified using precipitation and evaporation|unitless|Custom|H, AFS, WRH|
-|TXbdTNbd|User-defined consecutive number of cold days and nights|Annual number of d consecutive days where both TX < 5th percentile and TN < 5th percentile, where 10 >= d >=2|Total consecutive cold days and cold nights (where consecutive periods are user-specified)|events|Ann|H, AFS, WRH|
-|DTR|Daily Temperature Range|Mean difference between daily TX and daily TN|Average range of maximum and minimum temperature|°C|Mon/Ann||
-|TNx|Max TN|Warmest daily TN|Hottest night|°C|Mon/Ann||
-|TXn	|Min TX|Coldest daily TX|Coldest day|°C|Mon/Ann||
-|TMm|Mean TM|Mean daily mean temperature|Average daily temperature|°C|Mon/Ann||
-|TXm|Mean TX|Mean daily maximum temperature|Average daily maximum temperature|°C|Mon/Ann||
-|TNm|Mean TN|Mean daily minimum temperature|Average daily minimum temperature|°C|Mon/Ann||
-|TX10p|Amount of cool days|Percentage of days when TX < 10th percentile|Fraction of days with cool day time temperatures|%|Ann||
-|TX90p|Amount of hot days|Percentage of days when TX > 90th percentile|Fraction of days with hot day time temperatures|%|Ann||
-|TN10p|Amount of cold nights|Percentage of days when TN < 10th percentile|Fraction of days with cold night time temperatures|%|Ann||
-|TN90p|Amount of warm nights|Percentage of days when TN > 90th percentile|Fraction of days with warm night time temperatures|%|Ann||
-|CWD|Consecutive Wet Days|Maximum annual number of consecutive wet days (when PR >= 1.0 mm)|The longest wet spell|days|Ann||
-|R10mm|Number of heavy rain days|Number of days when PR >= 10 mm|Days when rainfall is at least 10mm|days|Mon/Ann||
-|Rnnmm|Number of customised rain days|Number of days when PR >= nn|Days when rainfall is at least a user-specified number of mm|days|Mon/Ann||
-|SDII|Daily PR intensity|Annual total PR divided by the number of wet days (when total PR >= 1.0 mm)|Average daily wet-day rainfall intensity|mm/day|Ann||
-|R95p|Total annual PR from heavy rain days|Annual sum of daily PR > 95th percentile|Amount of rainfall from very wet days|mm|Ann||
-|R99p|Total annual PR from very heavy rain days|Annual sum of daily PR > 99th percentile|Amount of rainfall from extremely wet days|mm|Ann||
-|Rx1day|Max 1-day PR|Maximum 1-day PR total|Maximum amount of rain that falls in one day|mm|Mon/Ann||
-|Rx5day|Max 5-day PR|Maximum 5-day PR total|Maximum amount of rain that falls in five consecutive days|mm|Mon/Ann|
-|HWN(EHF/Tx90/Tn90)|Heatwave number (HWN) as defined by either the Excess Heat Factor (EHF), 90th percentile of TX or the 90th percentile of TN|The number of individual heatwaves that occur each summer (Nov – Mar in southern hemisphere and May – Sep in northern hemisphere). A heatwave is defined as 3 or more days where either the EHF is positive, TX > 90th percentile of TX or where TN > 90th percentile of TN. Where percentiles are calculated from base period specified by user.|See Appendix D and [Perkins and Alexander (2013)](#appendixa_refs) for more details.|Number of individual heatwaves events|Ann|H, AFS, WRH|
-|HWF(EHF/Tx90/Tn90)|Heatwave frequency (HWF) as defined by either the Excess Heat Factor (EHF), 90th percentile of TX or the 90th percentile of TN|The number of days that contribute to heatwaves as identified by HWN.|See Appendix D and [Perkins and Alexander (2013)](#appendixa_refs) for more details.|days|Ann|H, AFS, WRH|
-|HWD(EHF/Tx90/Tn90)|Heatwave duration (HWD) as defined by either the Excess Heat Factor (EHF), 90th percentile of TX or the 90th percentile of TN|The length of the longest heatwave identified by HWN.|See Appendix D and [Perkins and Alexander (2013)](#appendixa_refs) for more details.|days|Ann|H, AFS, WRH|
-|HWM(EHF/Tx90/Tn90)|Heatwave magnitude (HWM) as defined by either the Excess Heat Factor (EHF), 90th percentile of TX or the 90th percentile of TN|The mean temperature of all heatwaves identified by HWN.|See Appendix D and [Perkins and Alexander (2013)](#appendixa_refs) for more details.|°C (°C^2 for  EHF)|Ann|H, AFS, WRH|
-|HWA(EHF/Tx90/Tn90)|Heatwave amplitude (HWA) as defined by either the Excess Heat Factor (EHF), 90th percentile of TX or the 90th percentile of TN|The peak daily value in the hottest heatwave (defined as the heatwave with highest HWM).|See Appendix D and [Perkins and Alexander (2013)](#appendixa_refs) for more details.|°C (°C^2 for  EHF)|Ann|H, AFS, WRH|
-|CWN_ECF|Coldwave number (CWN) as defined by the Excess Cold Factor (ECF).|The number of individual ‘coldwaves’ that occur each year.|See Appendix D and [Nairn and Fawcett (2013)](#appendixa_refs) for more information.|events|Ann|H, AFS, WRH|
-|CWF_ECF|Coldwave frequency (CWF) as defined by the Excess Cold Factor (ECF).|The number of days that contribute to ‘coldwaves’ as identified by ECF_HWN.|See Appendix D and [Nairn and Fawcett (2013)](#appendixa_refs) for more information.|days|Ann|H, AFS, WRH|
-|CWD_ECF|Coldwave duration (CWD) as defined by the Excess Cold Factor (ECF).|The length of the longest ‘coldwave’ identified by ECF_HWN.|See Appendix D and [Nairn and Fawcett (2013)](#appendixa_refs) for more information.|days|Ann|H, AFS, WRH|
-|CWM_ECF|Coldwave magnitude (CWM) as defined by the Excess Cold Factor (ECF).|The mean temperature of all ‘coldwaves’ identified by ECF_HWN.|See Appendix D and [Nairn and Fawcett (2013)](#appendixa_refs) for more information.|°C^2|Ann|H, AFS, WRH|
-|CWA_ECF|Coldwave amplitude (CWA) as defined by the Excess Cold Factor (ECF).|The minimum daily value in the coldest ‘coldwave’ (defined as the coldwave with lowest ECF_HWM).|See Appendix D and [Nairn and Fawcett (2013)](#appendixa_refs) for more information.|°C^2|Ann|H, AFS, WRH|
+This is a product of the <a href ='https://www2.gov.bc.ca/gov/content/environment/natural-resource-stewardship/natural-resources-climate-change/future-forest-ecosystems-centre#:~:text=The%20Future%20Forest%20Ecosystems%20Centre%20(FFEC)%20was%20officially%20established%20in,on%20B.C.%27s%20forest%20ecosystems.'> Future Forest Ecosystems Center (FFEC)</a>. The FFEC is a scientific team that forecasts climate change impacts on B.C.'s forest ecosystems. The core role of the FFEC is to translate ecological knowledge into data, tools, and guidance to help ecosystem managers account for climate risks.
 
-<a name="appendixa_refs"></a>
- 
+Please continue below to know more about the climate extreme indices, the process and methods of indices calculations, key features of the app and how this app can be useful. 
+Please navigate to the <a href='https://bcgov-env.shinyapps.io/bc_climate_extremes_app/'> Climate Extremes App  page </a> to access application with data, plots, and maps. There are options to download plots and/or data. The <a href='https://bcgov-env.shinyapps.io/bc_climate_extremes_app/Feedback & Links page' >Feedback & Links page </a> has a link to a form where users can provide their comments/feedback related to the app. Also, this page has links to other similar apps developed and maintained by the FFEC team.
+
+### **Key Features**
+- *Anomaly Calculation:* The app calculates anomalies of climate extreme indices, highlighting deviations from historical norms.
+- *Interactive Visualization:* It presents the data through intuitive maps, summary tables, and time series plots, complete with trend magnitude and significance indicators.
+- *User-Friendly:* Accessible to both government employees and the general public, the app provides extreme indices for Western North America, BC, and its subregions (ecoprovinces, ecoregions, ecosections, watersheds, and Municipalities)
+- *Wide Applicability:* Benefiting government employees, the broader scientific community, and interested individuals, it serves as a valuable resource for understanding BC's evolving extreme 
+
+## **Climate Extremes Indices (CEI)**
+### **Background**
+Changes in extreme weather profoundly impact ecosystems, ecological processes, and society, thus it is important to better understand how climate extreme changes with space and time. Climate Extremes Indices (CEI) are statistical measures used to quantify and characterize extreme weather events related to temperature, precipitation, and other climate variables. The CEI condense complex, multidimensional climate data into a form that is easy to understand and useful for policymaking, decision-making, and research. These indices help us grasp how climate extremes, such as temperature and precipitation, are changing over time or across different locations. For instance, understanding whether there is an increase or decrease in the number of frost days or the length of the growing season can inform agricultural decisions.
+
+CEI derived using daily data objectively extract information that has direct and more significant effect on natural systems and human beings; these indices help us understand the frequency, intensity, and duration of extreme conditions. 
+
+We use the <a href = 'https://climpact-sci.org/'> Climpact R software package </a> to calculate CEI. Using the Climpact we calculate the core 27 CEI also called Expert Team on Climate Change Detection and Indices <a href ='https://etccdi.pacificclimate.org/indices.shtml'> (ETCCDI) </a> indices <a href = ' https://doi.org/10.1002/wcc.147'> (Zhang et al., 2011) </a> along with sectoral indices also called Expert Team on Sector-Specific Climate Indices <a href ='https://climpact-sci.org/about/project/'> (ET-SCI) </a>. The ET-SCI includes indices that have sectoral applications such as no of heatwaves <a href = 'https://doi.org/10.1175/JCLI-D-12-00383.1'> (Perkins & Alexander, 2013) </a> or the SPEI values <a href = 'https://doi.org/10.1175/2009JCLI2909.1'> (Vicente-Serrano et al., 2010) </a> for given year and or month. In total we calculated 79 different CEI. The table at the bottom of the page presents the name, definition and description of the indices along with their timescale. Please refer to the <a href ='https://github.com/ARCCSS-extremes/climpact/blob/master/www/user_guide/Climpact_user_guide.md'>  climpact package documentation page </a> and reference there for further details on each of these indices. 
+We used daily minimum and maximum temperature and precipitation data from MSWX daily data to calculate the CEI for the period of 1979-2023. The MSWX data is based on ERA5 data and is bias corrected and downscaled using high-resolution reference climatologies. It is ~9 km × ~9 km spatial resolution daily data that merges gauge, satellite, and reanalysis data to obtain the highest quality precipitation estimates. Please refer to <a href = 'https://www.gloh2o.org/mswx/'>  MSWX data site </a> and <a href = 'https://doi.org/10.1175/BAMS-D-21-0145.1'> paper </a> or more information on the data. 
+
+<a href = 'https://services.pacificclimate.org/pcex/app/#/data/climo/ce_cmip6_mbcn'> Pacific Climate Impacts Consortium (PCIC) </a> and <a href = 'https://climate-scenarios.canada.ca/?page=CanDCS6-indices'> Government of Canada </a> also provide some of the CEI for Canada using different model output. However, this app
+
+- has more CEI including sectoral indices such as heatwaves, cold waves, and SPEI
+- provides CEI for any of chosen regions from Western North America, BC, ecoprovinces of BC, ecoregions of BC, ecosections of BC, watersheds of BC, and Municipalities of BC
+- provides indices in both annual and monthly basis
+- provides spatial changes and long-term trends of CEI, get summary and data at once
+- uses high-quality high resolution reanalysis datasets that combines both stations data and forecast model output
+
+### **Name and definition of the Climate Extreme Indices**
+
+**Table 1: List of the CEI calculated with their definitions and descriptions.**
+
+
+

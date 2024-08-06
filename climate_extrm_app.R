@@ -23,6 +23,8 @@ library("shinyjs")
 library('shinyalert')
 library('markdown')
 library('rmarkdown')
+library('knitr')
+library('kableExtra')
 
 library('sf')
 library('terra')
@@ -44,6 +46,11 @@ library('cptcity')
 library('RColorBrewer')
 library('colorspace')
 
+# Note
+# This app calculates and display the climatology , anomalies and trend on 79 different climate extreme indices.
+# These indices are first calculated using daily minimum and maximum temperatures and precipitation data from MSWX gridded data ( in .nc format)
+# Climpact R software ( netCDF calculation version that works only in the Linux system).
+# Please refer to climpact github (https://github.com/ARCCSS-extremes/climpact/) for indices calculations.
 
 # Load and process input data -------
 ## Paths --
@@ -445,16 +452,17 @@ ui <- fluidPage(
             "<h3><b>BC climate extremes app</b>: Visualizing changing climate extremes in British Columbia (BC) </h2>"
           )),
           includeMarkdown("intro_bc_climate_extremes_app.Rmd"),
+          tableOutput("cei_metadata_table"),
         column(
           width = 12,
           HTML(
             "<h4><b>Citation</b></h4>
                             <h5> <u>Please cite the contents of this app as:</u>
                             <br>
-                            Sharma, A.R. 2023. BC climate extremes app: Visualizing monthly and annual climate extremes in British Columbia (BC).</a>
+                            Sharma, A.R. 2024. BC climate extremes app: Visualizing climate extremes indices in British Columbia (BC).</a>
                             British Columbia Ministry of Forests.
-                  <a href='https://bcgov-env.shinyapps.io/bc_climate_anomaly/'
-            target='_blank'>https://bcgov-env.shinyapps.io/bc_climate_anomaly/</a> </h5>"
+                  <a href='https://bcgov-env.shinyapps.io/bc_climate_extremes_app/'
+            target='_blank'>https://bcgov-env.shinyapps.io/bc_climate_extremes_app/</a> </h5>"
           )
         ),
         column(
@@ -468,7 +476,7 @@ ui <- fluidPage(
               <a href= 'mailto: Aseem.Sharma@gov.bc.ca'>Aseem.Sharma@gov.bc.ca</a> <br>
               <br>
               <h4><b>Code</b></h4>
-              <h5> The code and data of this app are available through GitHub at <a href='https://github.com/aseemsharma1/bc_climate_extremes.git'> https://github.com/aseemsharma1/bc_climate_extremes.git.</a></h5>"
+              <h5> The code and data of this app are available through GitHub at <a href='https://github.com/bcgov/bc_climate_extremes_app.git'> https://github.com/bcgov/bc_climate_extremes_app.git.</a></h5>"
           )
         ),
         column(width = 12,
@@ -649,7 +657,9 @@ ui <- fluidPage(
               downloadButton(outputId = "download_ano_plt",
                              label = "Download plot"),
               downloadButton(outputId = "download_ano_data",
-                             label = "Download raster data"),
+                             label = "Download visible raster data"),
+              downloadButton(outputId = "download_all_ano_data",
+                             label = "Download all raster data"),
             )
           )),
           ###### climate normal map and anomalies overview ----
@@ -1059,6 +1069,17 @@ server <- function(session, input, output) {
     mon_full
   })
 
+  # Indices metadata table output ----
+  cei_mtdt_tbl <- read_csv('CEI_metadata_table.csv',locale = locale(encoding = "Latin1"))
+
+  output$cei_metadata_table <- function() {
+    cei_mtdt_tbl %>%
+      knitr::kable("html") %>%
+      kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+                    full_width = F,fixed_thead = T)
+  }
+
+
    # Indices definition text ----
 
   reactive_extrm_indx_def <- reactive({
@@ -1161,12 +1182,12 @@ server <- function(session, input, output) {
    # Filter for selected year (s)
      sel_yrs <- get_years()
 
-    if (length(sel_yrs) > 30) {
-      sel_yrs <- sel_yrs[1:30]
+    if (length(sel_yrs) > 50) {
+      sel_yrs <- sel_yrs[1:50]
       shinyalert(
         html = T,
         text = tagList(h3(
-          "Too many years selected, maximum 30 allowed."
+          "Too many years selected, maximum 50 allowed."
         )),
         showCancelButton = T
       )
@@ -1793,6 +1814,47 @@ server <- function(session, input, output) {
   output$clm_nor_map <- renderPlot({
     reactive_clm_dt_plt()
   })
+  # Anomaly data all for download
+  reactive_extrm_indx_ano_dt_all <- reactive({
+    req(input$month_picker)
+    req(input$indx_picker)
+    req(input$major_area)
+
+    extrm_indx_mtdt_dt_fl %>%
+      dplyr::filter(mon == input$month_picker &
+                      indx == input$indx_picker) -> extrm_indx_mtdt_dt_fl_mon
+
+    # Anomaly data path
+    extrm_indx_mtdt_dt_fl_mon_ano <- extrm_indx_mtdt_dt_fl_mon%>%
+      dplyr::filter(dt_type =='ano')
+
+    ano_dt_sel_rast <- rast(extrm_indx_mtdt_dt_fl_mon_ano$dt_pth)
+    ano_dt_sel_rast
+    # plot(ano_dt_sel_rast)
+
+    # Clip by shapefile of the selected area
+    sel_area_shpfl <- get_shapefile()
+
+    ano_dt_sel_rast <-
+      terra::crop(ano_dt_sel_rast, sel_area_shpfl, mask = T)
+    ano_dt_sel_rast
+    # plot(ano_dt_sel_rast)
+    names(ano_dt_sel_rast)
+    terra::time(ano_dt_sel_rast) <-   as.integer(time(ano_dt_sel_rast))
+    time(ano_dt_sel_rast)
+    names(ano_dt_sel_rast) <-  as.integer(time(ano_dt_sel_rast))
+
+    # ano_dt_sel_rast <- ano_dt_fil_rast
+    # plot(ano_dt_sel_rast)
+
+    # other requirements
+    monn = input$month_picker
+    exindx = input$indx_picker
+
+    ano_dt_shp_rast <- ano_dt_sel_rast
+
+  })
+
   # Climate normal data : for download
   reactive_clm_dt_fl <- reactive({
     req(input$major_area)
@@ -1976,6 +2038,7 @@ server <- function(session, input, output) {
     exindx = input$indx_picker
 
     ano_dt_shp_rast <- ano_dt_sel_rast
+
     # Shapefile spatial average anomalies by year
     ano_shp_av_dt <-
       tibble(rownames_to_column(global(
@@ -2374,13 +2437,52 @@ server <- function(session, input, output) {
     fl_nam
   })
 
-  # Spatial anomaly data download as raster (tif )
+  # Spatial anomaly data (visible) download as raster (tif )
   output$download_ano_data <- downloadHandler(
     filename = function(file) {
       paste0(file_nam_info(), "_data.tif")
     },
     content = function(file) {
       writeRaster(reactive_extrm_indx_dt_fl(),
+                  file,
+                  filetype = "GTiff",
+                  overwrite = TRUE)
+    }
+  )
+
+  # Spatial anomaly data (all) download as raster (tif )
+  file_nam_info_all <- reactive({
+    req(input$indx_picker)
+    req(input$month_picker)
+    req(input$year_range)
+
+
+    sel_area_shpfl <- get_shapefile()
+    # plot(st_geometry(sel_area_shpfl))
+
+    # other requirements
+    monn = input$month_picker
+    exindx = input$indx_picker
+
+    fl_nam <-
+      paste0(get_region(),
+             "_",
+             exindx,"_anomaly",
+             "_",
+             monn,
+             "_",
+             min_year,
+             "_",
+             max_year)
+    fl_nam
+  })
+
+  output$download_all_ano_data <- downloadHandler(
+    filename = function(file) {
+      paste0(file_nam_info_all(), "_data.tif")
+    },
+    content = function(file) {
+      writeRaster(reactive_extrm_indx_ano_dt_all(),
                   file,
                   filetype = "GTiff",
                   overwrite = TRUE)
@@ -2470,6 +2572,7 @@ server <- function(session, input, output) {
       )
     }
   )
+
   ## Climate normal data and plot download  ----
   file_nam_info_clm_nor <- reactive({
     req(input$indx_picker)
@@ -2576,7 +2679,7 @@ server <- function(session, input, output) {
       Multi-Source Weather (MSWX) daily data</a> to calculate the extreme climate indices,their anomalies and climatology.
       Anomalies are calculated as the measure of departure from the climatological averages spanning from 1981 to 2010.
       Should you have any inquiries or wish to provide feedback, please do not hesitate to use
-      <a href=https://forms.office.com/r/wN0QYAvSTZ'> this feedback form </a> or write to Aseem Sharma @ <a href= 'mailto: Aseem.Sharma@gov.bc.ca'>Aseem.Sharma@gov.bc.ca</a> . </p>"
+      <a href=https://forms.office.com/r/iT9a0nyMgP'> this feedback form </a> or write to Aseem Sharma @ <a href= 'mailto: Aseem.Sharma@gov.bc.ca'>Aseem.Sharma@gov.bc.ca</a> . </p>"
     )
 
   })
