@@ -24,7 +24,7 @@ library('shinyalert')
 library('markdown')
 library('rmarkdown')
 library('knitr')
-library('kableExtra')
+library('gt')
 
 library('sf')
 library('terra')
@@ -141,6 +141,11 @@ months_nam <-
   )
 months_nam
 
+# Climate Extreme indices (CEI) front page table data
+cei_mtdt_tbl <- read_csv('CEI_metadata_table.csv',locale = locale(encoding = "Latin1"))
+cei_mtdt_tbl
+
+# CEI Meta data for analysis
 extrm_indx_mtdt <- read_csv(paste0(extrm_indx_dt_pth,'climate_extreme_indices_database_metadata.csv'))
 extrm_indx_mtdt
 
@@ -224,7 +229,7 @@ extrm_indx_mtdt
 
 indx_def <- unique(extrm_indx_mtdt$indx_long_name)
 indx_def
-# index choixes list
+# index choices list
 
 indx_choice_list <- list(
   "Heat indices",
@@ -449,10 +454,10 @@ ui <- fluidPage(
         width = 12,
         wellPanel(
           HTML(
-            "<h3><b>BC climate extremes app</b>: Visualizing changing climate extremes in British Columbia (BC) </h2>"
+            "<h3><b>BC climate extremes app</b>: Data and visualization of changing climate extreme indices (CEI) in British Columbia (BC) </h2>"
           )),
           includeMarkdown("intro_bc_climate_extremes_app.Rmd"),
-          tableOutput("cei_metadata_table"),
+          gt_output("cei_metadata_table"),
         column(
           width = 12,
           HTML(
@@ -607,7 +612,7 @@ ui <- fluidPage(
               min_year,
               max_year
               ,
-              value = c((max_year - 5), (max_year)),
+              value = c((max_year - 10), (max_year)),
               sep = ""
             ),
             chooseSliderSkin(skin = "Shiny"),
@@ -1070,14 +1075,54 @@ server <- function(session, input, output) {
   })
 
   # Indices metadata table output ----
-  cei_mtdt_tbl <- read_csv('CEI_metadata_table.csv',locale = locale(encoding = "Latin1"))
 
-  output$cei_metadata_table <- function() {
-    cei_mtdt_tbl %>%
-      knitr::kable("html") %>%
-      kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-                    full_width = F,fixed_thead = T)
-  }
+  cei_mtdt_tbl%<>%
+    arrange(Category,`Index short name`)%<>%
+    dplyr::select(Category, `Index short name`,`Index name`,Definition,Description,Unit,Timescale)
+  cei_mtdt_tbl
+
+  cei_gt <- cei_mtdt_tbl%>%
+    gt(groupname_col = "Category")%>%
+    tab_header(title = md("**Table: List of the CEI with their definitions and descriptions.**"),
+               )%>%
+    opt_align_table_header(align = "left")%>%
+    tab_source_note(
+      source_note =md( "Source: *Climpact R software 'https://climpact-sci.org/'*")
+    )%>%
+    tab_style(
+      style = cell_text(weight = "bold"),
+      locations = cells_row_groups()
+    )%>%
+    tab_options(column_labels.font.weight = "bold")%>%
+    tab_style(
+      style = cell_borders(
+        sides = c("t", "b"),
+        color = "black",
+        weight = px(3)
+      ),
+      locations = list(cells_column_labels(), cells_stubhead())
+    )%>%
+    tab_style(
+      style = cell_borders(
+        sides = c("top", "bottom"),
+        color = "powderblue",
+        weight = px(2.5),
+        style = "solid"
+      ),
+      locations = cells_body()
+    )
+  cei_gt
+
+    output$cei_metadata_table <- render_gt(expr =cei_gt)
+
+
+
+#   output$cei_metadata_table <- function() {
+#     cei_mtdt_tbl %>%
+#       knitr::kable("html") %>%
+#       kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
+#                     full_width = F,fixed_thead = T)
+#   }
 
 
    # Indices definition text ----
