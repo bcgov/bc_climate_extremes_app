@@ -599,8 +599,6 @@ ui <- fluidPage(
           br(),
           fluidRow(title = "Month",
                    uiOutput("month_picker")),
-          helpText(HTML("Extreme indices may not always have monthly or annual data available.
-                        If no data exists, an error with <i> filename is empty </i>  occur.",)),
           br(),
           fluidRow(
             helpText(HTML("<h5><b> Choose range of years or specific year(s)</b> </h5>",)),
@@ -612,7 +610,7 @@ ui <- fluidPage(
               min_year,
               max_year
               ,
-              value = c((max_year - 10), (max_year)),
+              value = c((max_year - 5), (max_year)),
               sep = ""
             ),
             chooseSliderSkin(skin = "Shiny"),
@@ -973,7 +971,7 @@ server <- function(session, input, output) {
     )
     pickerInput(
       "month_picker",
-      "Select monthly or annual period"
+      "Select month or annual timescale"
       ,
       choices = mon_choices,
       selected = "ann"
@@ -1113,19 +1111,9 @@ server <- function(session, input, output) {
     )
   cei_gt
 
-    output$cei_metadata_table <- render_gt(expr =cei_gt)
+  output$cei_metadata_table <- render_gt(expr =cei_gt)
 
-
-
-#   output$cei_metadata_table <- function() {
-#     cei_mtdt_tbl %>%
-#       knitr::kable("html") %>%
-#       kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),
-#                     full_width = F,fixed_thead = T)
-#   }
-
-
-   # Indices definition text ----
+       # Indices definition text ----
 
   reactive_extrm_indx_def <- reactive({
     req(input$indx_picker)
@@ -1154,6 +1142,17 @@ server <- function(session, input, output) {
    reactive_extrm_indx_def()
   })
 
+ # Monthly or annual data only reactive
+
+ reactive_extrm_mon_ann_indx_dt_fl <- reactive({
+   req(input$indx_picker)
+   req(input$month_picker)
+   req(input$year_range)
+
+   extrm_indx_mtdt_dt_fl %>%
+     dplyr::filter(mon == input$month_picker &
+                     indx == input$indx_picker) -> extrm_indx_mtdt_dt_fl_mon
+ })
 
   # Spatial anomaly data : reactive to selection
   reactive_extrm_indx_dt_fl <- reactive({
@@ -1164,6 +1163,24 @@ server <- function(session, input, output) {
     extrm_indx_mtdt_dt_fl %>%
       dplyr::filter(mon == input$month_picker &
                indx == input$indx_picker) -> extrm_indx_mtdt_dt_fl_mon
+
+     # If data has only monthly or annual value
+    if (input$month_picker == 'ann' &
+        nrow(extrm_indx_mtdt_dt_fl_mon) == 0) {
+      shinyalert(html = T,
+                 text = tagList(
+                   h3("This index does not have annual value, please select a month.")
+                 ),
+                 showCancelButton = T)
+    } else if (input$month_picker != 'ann' &
+               nrow(extrm_indx_mtdt_dt_fl_mon) == 0) {
+      shinyalert(html = T,
+                 text = tagList(
+                   h3("This index has only annual values, please select annual.")
+                 ),
+                 showCancelButton = T)
+
+    } else {
 
     #Anomaly data path
     extrm_indx_mtdt_dt_fl_mon_ano <- extrm_indx_mtdt_dt_fl_mon%>%
@@ -1238,6 +1255,7 @@ server <- function(session, input, output) {
       )
     }
 
+
      yr_df <- tibble(paryr = time(ano_dt_sel_rast))
      yr_df %<>%
        mutate(yr = as.numeric(str_extract(paryr, "[0-9]+")))
@@ -1246,7 +1264,8 @@ server <- function(session, input, output) {
      ano_dt_fil_rast <-  subset(ano_dt_sel_rast, which(names(ano_dt_sel_rast) %in% sel_yrs))
      ano_dt_fil_rast
      # plot(ano_dt_fil_rast)
-  })
+    }
+      })
 
   # Create reactive anomaly plot for display and save ------
   sp_ano_plt_rct <- reactive({
