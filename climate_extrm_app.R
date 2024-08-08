@@ -645,12 +645,12 @@ ui <- fluidPage(
           ##### Anomaly map plot ------
                    column(width = 12,
                  wellPanel(
-                   HTML("<h4><b> Climate extreme index definition</b> </h4>"),
+                   HTML("<h4><b>  Climate extreme index (CEI) definition</b> </h4>"),
                    uiOutput("indx_def_text")
                  )),
           column(width = 12,
                  wellPanel(
-                   HTML("<h4><b> Climate extreme index anomaly map</b> </h4>")
+                   HTML("<h4><b>  Climate extreme index (CEI) anomaly map</b> </h4>")
                  )),
           fluidRow(column(
             width = 12,
@@ -658,11 +658,11 @@ ui <- fluidPage(
               width = 12,
               plotOutput("ano_map", height = "70vh"),
               downloadButton(outputId = "download_ano_plt",
-                             label = "Download plot"),
+                             label = "Download plot (visible)"),
               downloadButton(outputId = "download_ano_data",
-                             label = "Download visible raster data"),
+                             label = "Download raster data -- visible"),
               downloadButton(outputId = "download_all_ano_data",
-                             label = "Download all raster data"),
+                             label = "Download raster data -- all"),
             )
           )),
           ###### climate normal map and anomalies overview ----
@@ -671,19 +671,19 @@ ui <- fluidPage(
               width = 6,
               align="left",
               wellPanel(HTML(
-                "<h5><b>Climate extreme indices climatology (1981-2010)</b> </h5>"
+                "<h5><b> Climate extreme index (CEI) climatology (1981-2010)</b> </h5>"
               )),
               uiOutput("clm_nor_title", height = "30vh"),
               plotOutput("clm_nor_map", width = "100%", height = "30vh"),
               downloadButton(outputId = "download_clm_nor_plt",
                              label = "Download plot"),
               downloadButton(outputId = "download_clm_nor_data",
-                             label = "Download raster data"),
+                             label = "Download climatology raster data"),
             ),
             box(
               width = 6,
               status = "primary",
-              wellPanel(HTML("<h5><b>Anomalies Overview</b> </h5>")),
+              wellPanel(HTML("<h5><b> Climate extreme index (CEI) anomalies overview</b> </h5>")),
               uiOutput("anomaly_overview", height = "30vh"),
               br(),
               DTOutput('ano_ovr_tbl')
@@ -692,7 +692,7 @@ ui <- fluidPage(
           ##### trend plots ----
           column(width = 12,
                  wellPanel(
-                   HTML("<h4><b>Time-series and trend </b> </h4>")
+                   HTML("<h4><b> Climate extreme index (CEI) time-series and trend </b> </h4>")
                  )),
           fluidRow(column(
             width = 12,
@@ -706,7 +706,7 @@ ui <- fluidPage(
                 downloadButton(outputId = "download_avtrn_plt",
                                label = "Download plot"),
                 downloadButton(outputId = "download_ano_ts_data",
-                               label = "Download anomaly time series data"),
+                               label = "Download anomaly time series data (.csv)"),
               ),
               # tabPanel(
               #   status = 'primary',
@@ -944,7 +944,7 @@ server <- function(session, input, output) {
 
     pickerInput(
       "indx_picker",
-      "Select Climate Extremes Index ",
+      " Select climate extreme index (CEI) ",
       choices = indx_choices,
       choicesOpt = indx_item_design_list,
       selected = 'su'
@@ -1133,8 +1133,8 @@ server <- function(session, input, output) {
 
     extrm_indx_def_txt <-
       HTML(paste0("<b>",extrm_indx_def$indx_long_name,' (',extrm_indx_def$indx_short_name,') : ', "</b>",
-                  'The extreme index ',get_par_full(), ' is described as ', extrm_indx_def$description,
-             '. It is available at ', timeperiod, ' timescale with unit ', extrm_indx_def$Units,'.'))
+                  'The climate extreme index (CEI) ',get_par_full(), '<em> (Definition: ', extrm_indx_def$definition,') </em> is described as ', extrm_indx_def$description,
+              ' with unit ', '<em>', extrm_indx_def$Units,'</em>','.'))
   })
 
  output$indx_def_text <- renderUI({
@@ -2289,7 +2289,7 @@ server <- function(session, input, output) {
       ) +
       scale_x_continuous(
         name = " ",
-        breaks = seq(1980, maxyr, 2),
+        breaks = seq(1980, maxyr,2),
         expand = c(0.02, 0.02)
       ) +
       scale_y_continuous(name = y_axis_lab,
@@ -2629,7 +2629,7 @@ server <- function(session, input, output) {
         width = 13,
         height = 6,
         units = "in",
-        dpi = 400,
+        dpi = 350,
         scale = 1,
         limitsize = F,
         device = "png"
