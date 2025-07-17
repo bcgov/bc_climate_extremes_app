@@ -1,0 +1,414 @@
+---
+title: "Evaluation of selected Climate Extreme Indices (CEIs) from BC climate extremes app"
+author:
+ name: "Aseem Sharma e-mail: aseem.sharma@gov.bc.ca"
+ corresponding: true
+ email: Aseem.Sharma@gov.bc.ca
+ affiliations:
+    id: "FFEC"
+    name: "Future Forest Ecosystems Centre, FCCSB, OCF, BC Ministry of Forests" 
+date: "`r paste('Date:', format(Sys.time(), '%d %B, %Y'))`"
+code-annotations: false
+execute:
+  echo: false
+  warning: false
+  output: false
+cap-location: bottom
+editor: visual
+wrap: auto
+bibliography: cei_eval_ref.bib
+csl: apa.csl
+format: 
+ html:
+  fig-format: png
+  toc_float: true
+  toc-location: left
+  toc: true
+  toc-depth: 4
+  toc-title: "Contents"
+  number-sections: true
+  number-depth: 3
+  fig-prefix: "Figure"
+  tbl-prefix: "Table"
+  table-cap-location: top
+  embed-resources: true
+  self-contained: true
+  theme: united 
+  css: style.css
+#  pdf:
+#   lof: true
+#   lot: false
+#   number-sections: false
+#   fig-pos: 'H'
+#   fig-format: png
+#   fig-dpi: 150
+#   pdf-engine: latexmk
+#   pdf-engine-opt: -xelatex
+# editor_options:
+#  chunk_output_type: console
+editor_options: 
+  chunk_output_type: console
+---
+
+```{=html}
+<!-- 
+below modfies the quarto to create print to pdf button and change HTML document to print friendly by changing the format.
+-->
+```
+
+::: print-button-container
+<button id="printButton" class="print-button">
+
+Print to PDF
+
+</button>
+:::
+
+```{=html}
+<style>
+/* General styles for the browser view (from Quarto theme) are untouched */
+
+.print-button-container {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.print-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.print-button:hover {
+  background-color: #0056b3;
+}
+
+/* Print-specific styles (only active when .print-mode is applied) */
+.print-mode body {
+  background-color: white;
+  color: black;
+  font-size: 12pt;
+}
+
+.print-mode .print-button-container {
+  display: none; /* Hide the print button during printing */
+}
+
+.print-mode h1, .print-mode h2, .print-mode h3 {
+  page-break-after: avoid;
+}
+
+.print-mode p {
+  margin: 1em 0;
+}
+
+.print-mode table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.print-mode th, .print-mode td {
+  border: 1px solid #000;
+  padding: 5px;
+}
+
+@page {
+  size: auto;
+  margin: 1in;
+  @bottom-center {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 10pt;
+    color: #666;
+  }
+}
+
+@media print {
+  body {
+    counter-reset: page;
+  }
+
+  .print-button-container {
+    display: none !important;
+  }
+
+  /* Optional: Add page number footer manually for compatibility */
+  footer::after {
+    content: "Page " counter(page);
+    display: block;
+    text-align: center;
+    font-size: 10pt;
+    color: #555;
+    margin-top: 2em;
+  }
+}
+</style>
+```
+
+```{=html}
+<script>
+document.getElementById("printButton").addEventListener("click", function () {
+  // Add the print-specific class to the <html> element
+  document.documentElement.classList.add("print-mode");
+
+  // Trigger the print dialog
+  window.print();
+
+  // Remove the print-specific class after a brief delay
+  setTimeout(function () {
+    document.documentElement.classList.remove("print-mode");
+  }, 1000);
+});
+</script>
+```
+
+```{r}
+#| label: setup
+#| include: false
+knitr::opts_chunk$set(echo = FALSE, dpi = 400)
+```
+
+# Background
+
+This document presents an evaluation of selected **Climate Extremes Indices (CEIs)** generated and visualized in the <a href="https://bcgov-env.shinyapps.io/bc_climate_extremes_app/" target="_blank"> `bc_climate_extremes_app` </a> (referred to as **CEIapp** hereafter). The primary objectives are twofold:
+
+1.  To clarify the calculation methods for specific CEIs whose definitions or computational procedures are not sufficiently detailed in their definition and description [Appendix 1](#appendix1)
+2.  To assess the consistency and performance of CEIs produced by the app in comparison with similar indices from established sources or input data.
+
+The <a href="https://bcgov-env.shinyapps.io/bc_climate_extremes_app/" target="_blank"> CEIapp </a> provides a suite of over 70 CEIs, derived from the Multi-Source Weather <a href="https://www.gloh2o.org/mswx/" target="_blank"> (MSWX) </a> gridded dataset [@Beck2022], which includes daily minimum and maximum temperatures and precipitation across western North America. Several CEIs also incorporate spatial coordinates (latitude and longitude) and the month of the year in their calculations to account for spatial and seasonal variability. This dataset has a spatial resolution of **0.1° × 0.1°** and spans the period from **1979 to present**. For the current analysis, we limit the temporal extent to **2024**, the most recent year for which complete data were available. The app will be updated periodically to incorporate indices for subsequent years.
+
+Although the app includes over 70 CEIs (listed in [Appendix 1](#appendix-1)), the scope of this evaluation is limited to a subset of sector-relevant indices, as many of the indices are already well-defined and sufficiently described. Selected indices evaluated here include the **drought index SPEI**, the **heatwave-related indices**, and the **precipitation-related indices**.
+
+# Standardized Precipitation-Evapotranspiration Index (SPEI)
+
+We calculated the **Standardized Precipitation-Evapotranspiration Index (SPEI)** drought index using the <a href="https://github.com/ARCCSS-extremes/climpact" target="-blank"> climpact R package </a>, which internally uses the <a href="https://github.com/sbegueria/SPEI"> SPEI R package </a> to compute SPEI values. The SPEI is calculated as the climatic water balance obtained at various time scales (here: 3-month, 6-month, and 12-month) as shown in equation (i) [@Vicente-Serrano2010]:
+
+$$
+D_i = P_i - PET_i                            \tag{i}
+$$
+
+where:\
+$P_i$ is the accumulated precipitation for period *i*,\
+$PET_i$ is the potential evapotranspiration, and\
+$D_i$ is the climate water balance.
+
+The time series of $D_i$ values is then standardized (mean 0, standard deviation 1) using a log-logistic distribution to produce unitless SPEI values [@Vicente-Serrano2010]. These standardized values account for seasonal and regional variability, enabling comparison across time and space.
+
+There are various methods to calculate PET, such as Thornthwaite, Penman-Monteith, and Hargreaves. In the **CEIapp**, the $PET ( ET_0 )$ is calculated using a modified Hargreaves method, an empirical approach that requires limited input data and relies primarily on temperature and extraterrestrial radiation (Ra), which can be calculated from latitude and Julian day as in equation (ii).
+
+$$
+ET_o = 0.0023 \times Ra \times (T_{avg} + 17.8) \times (T_{max} - T_{min})^{0.5}                         \tag{ii}
+$$
+
+where:\
+$ET_0$ = evapotranspiration,\
+$Ra$ = extraterrestrial radiation,\
+$T_{avg}$, $T_{max}$, $T_{min}$ = average, maximum, and minimum daily temperatures.
+
+The calculated SPEI can be used to indicate the severity of drought with negative and positive SPEI indicating dry and wet conditions as in @tbl-drght_cond:
+
+| SPEI Value     | Drought Condition |
+|----------------|-------------------|
+| ≤ -2.00        | Extremely Dry     |
+| -1.50 to -1.99 | Severely Dry      |
+| -1.00 to -1.49 | Moderately Dry    |
+| -0.99 to 0.99  | Normal            |
+| 1.00 to 1.49   | Moderately Wet    |
+| 1.50 to 1.99   | Very Wet          |
+| ≥ 2.00         | Extremely Wet     |
+
+: **Categories of drought condition based on SPEI values.** {#tbl-drght_cond}
+
+We compared our SPEI values with those from the **global SPEI database**, which provides long-term SPEI data (1950–2025) at **1° × 1°** spatial resolution using the **CRU TS 4.09** dataset (Harris et al., 2020). This database provides SPEI for accumulation periods ranging from 1 to 48 months. For our comparison, we focused on **3-, 6-, and 12-month periods** using a BC subset of the global dataset.
+
+@fig-speijl2023 shows a spatial comparison of SPEI across BC at three temporal scales—3, 6, and 12 months— for July 2023, one of the highest drought months. The figure indicates detailed drought conditions as shown by SPEI with the higher resolution outputs of the CEIapp (left panel) than the coarser-resolution global SPEI ( right panel). Although the pattern of SPEI is captured well across BC especially for 3-months period, it differs substantially for 6 and 12 months especially along the Coast Mountains region of BC. Furthermore, the SPEI calculated for CEIapp consistently indicates widespread drought conditions across BC for all three accumulation periods (3, 6, and 12 months). Drought severity intensifies with increasing accumulation periods, a pattern particularly evident in the 12-month SPEI map (@fig-speijl2023 a), which depicts pervasive drought throughout the province. In contrast, the global SPEI dataset exhibits greater spatial variability, with certain regions not indicating drought. While the SPEI from CEIapp suggests a more uniform and widespread drought pattern, the global SPEI database illustrates localized areas—particularly along the western coast—where drought conditions are less pronounced or absent in the global SPEI data. Given the inherently regional nature of drought, the extreme app’s SPEI appears to provide a more consistent and regionally appropriate representation of drought conditions in BC compared to the global dataset.
+
+![Spatial pattern of 3, 6 and 12-month SPEI calculated from (a.) MSWX based CEI database from the bc_climate_extremes_app and (b.) using global drought monitor database for July 2023.](cei_eval_results_plts_tbls/bc_july2023_mswx_global_spei.png){#fig-speijl2023 width="100%"}
+
+We also calculated **correlation** and other comparison metrics—including **Root Mean Square Error (RMSE)**, **Mean Absolute Error (MAE)**, and **Integrated Quadratic Distance (IQD)** which quantifies the difference between two distribution functions by integrating the squared differences across their range (@Thorarinsdottir2013) —between the extreme app’s SPEI and the global SPEI datasets. These metrics assess the degree of agreement and error between the SPEIs from the CEIapp and global SPEI database.
+
+The 3-month accumulation of the SPEI shows higher correlation and lower RMSE and IQD between the extreme app and global SPEI datasets (@fig-speicompcoef_plt). This indicates relatively strong agreement at shorter accumulation timescales. However, as the accumulation period increases (e.g., to 6 or 12 months), the correlation weakens and error metrics increase, suggesting greater discrepancies between the datasets. This divergence i.e, the reduced comparability of SPEI values at longer accumulation periods, is likely attributable to differences in dataset resolution and quality (MSWX (0.1°) @Beck2022 versus CRU TS (1°) @Harris2020) and methodological variations in PET estimation (CEIapp uses Hargreaves; global datasets may use Thornthwaite or Penman-Monteith) .
+
+![Spatial comparison coefficients between CEIapp SPEI and global SPEI database over the period of 1979 to 2025 for 3- 6- and 12- months.](cei_eval_results_plts_tbls/bc_spei_comp_coeffs_spatial_plt.png){#fig-speicompcoef_plt width="100%"}
+
+# Heatwave and temperature indices
+
+We calculated the heatwave number, frequency and duration using the climpact R package and the heatwave aspects are defined based on minimum and maximum temperature thresholds and the Excess Heat Factor (EHF). The maximum (minimum) temperature heatwaves are defined as any period of three or more days when daily maximum (minimum) temperature ((TX)(TN)) exceeds the 90<sup>th</sup> percentile for the corresponding calendar day. EHF heatwaves are defined as any period of three or more days when the EHF is positive. The EHF is calculated as in equation (iii) where $EHI_{sig}$ and $EHI_{acc}$ are two excess heat indices (EHI) representing the potential to acclimatize to and the climatological significance of the heat on a particular day and calculated as in equations (iv) and (v) following @Nairn2013.
+
+$$
+ EHF = EHI_{sig} \times EHI_{acc}                     \tag{iii}
+$$
+
+$$
+EHI_{sig} = (T_{i} + T_{i-1} + T_{i-2})/3 - T_{95}                \tag{iv}
+$$ $$
+EHI_{acc} = (T_{i} + T_{i-1} + T_{i-2})/3 - (T_{i-1} + ...+ T_{i-30})/30                \tag{v}
+$$
+
+where $T_i$ is the daily temperature for day $i$ and $T_{95}$ is the 95<sup>th</sup> percentile of $T_i$ over all days within the specified base period i.e., 1981-2010. Since heatwave indices are directly derived from daily minimum and maximum temperatures, we first evaluate the MSWX daily temperature data against observed station data across BC. This comparison serves to assess the representativeness of the MSWX dataset, and the reliability of the heatwave indices computed in the CEIapp. We focus on two key comparisons: (1) the 2021 heatwave event, one of the most significant in BC’s recent history and (2) a long-term evaluation across three stations located at different elevations and different parts of BC. These analyses provide insights into how accurately MSWX data captures daily temperature, and, by extension, the robustness of heatwave-related indices presented in the CEIapp.
+
+## Heatwave 2021
+
+![Comparison of daily minimum and maximum temperatures from the MSWX gridded dataset and observed station data across BC, averaged over the 2021 heatwave period i.e., June 25 to July 2, 2021.](cei_eval_results_plts_tbls/heatwave2021_mswx_obs_stn_BC_temp_plt.png){#fig-hwbc_plt width="100%"}
+
+![Same as @fig-hwbc_plt but focused on the lower-latitude region of BC that experienced the most severe impacts of the 2021 heatwave. This zoomed-in view allows for a more detailed comparison of daily minimum and maximum temperatures from MSWX and station observations and shows how well MSWX daily data captures localized heatwave.](cei_eval_results_plts_tbls/heatwave2021_mswx_obs_stn_Lower_BC_temp_plt.png){#fig-hwbclw_plt width="100%"}
+
+@fig-hwbc_plt (for all of BC) and @fig-hwbclw_plt (focused on lower-latitude regions of BC) provide a visual comparison of how daily minimum and maximum temperatures were captured by the MSWX daily temperature data relative to observed station data during the peak of the June 2021 heatwave (June 25 to July 2, 2021). Overall, the MSWX data shows strong agreement with observations, with an average difference of only 0.2°C for maximum temperatures and –1.5°C for minimum temperatures across all stations.
+
+## Long-term daily temperature evaluation
+
+![Location of three selected stations with different elevations and long-term daily data availability for comparative analysis.](cei_eval_results_plts_tbls/bc_sel_stns_location_map.png){#fig-stnlocmap width="100%"}
+
+| Station ID |      | MAE  | RMSE | Bias  | Corr (r) | IQD  |
+|:-----------|:-----|:-----|:-----|:------|:---------|:-----|
+| 1095018    | Tmin | 2.47 | 3.49 | -0.75 | 0.92     | 0.03 |
+|            | Tmax | 2.25 | 3.21 | 0.05  | 0.95     | 0.01 |
+| 1103332    | Tmin | 1.37 | 1.87 | 0.17  | 0.95     | 0.05 |
+|            | Tmax | 1.72 | 2.30 | -0.03 | 0.96     | 0.01 |
+| EAC        | Tmin | 2.51 | 3.20 | -0.27 | 0.93     | 0.06 |
+|            | Tmax | 2.78 | 3.50 | 0.40  | 0.95     | 0.07 |
+| Average    | Tmin | 2.12 | 2.85 | -0.28 | 0.93     | 0.05 |
+|            | Tmax | 2.25 | 3.00 | 0.14  | 0.95     | 0.03 |
+
+: **Comparison coefficients between observed and MSWX data for the period of 1980 to 2024 across selected three stations in BC.** {#tbl-compcoeftmp}
+
+A long-term comparison of daily MSWX and observed temperature from three selected stations in BC spanning a range of elevations (@fig-stnlocmap) over the period 1980 to 2024 demonstrates good agreement between these two datasets (@tbl-compcoeftmp and @fig-1on1tmpplt). Correlation coefficients *(r)* are consistently strong for both Tmin (0.93) and Tmax (0.95) on average. Average MAE values are 2.12 for Tmin and 2.25 for Tmax, indicating good accuracy. While minor biases exist, the overall consistency and low IQD values suggest the MSWX daily temperature is reliable for heatwave indices.
+
+![One on one plot of daily temperature between MSWX and observation for selected 3 stations covering different elevations across BC.](cei_eval_results_plts_tbls/oneonone_bc_sel_stns_dly_tmp_obs_mswx_plt.png){#fig-1on1tmpplt width="100%"}
+
+The 1:1 scatter plot of both minimum (Tmin) and maximum (Tmax) temperatures shows that the MSWX temperatures closely align with observation, as indicated by the tight clustering of points around the 1:1 line (@fig-1on1tmpplt). This strong linear agreement suggests that MSWX effectively captures daily temperature variability and extremes across different elevations and regions. Despite minor discrepancies, especially at lower temperatures for station 1095018, the overall consistency underscores the reliability of MSWX for representing historical daily temperature and their extremes.
+
+These results, based on both the detailed comparison of the 2021 heatwave and the long-term evaluation, indicate that the MSWX dataset reliably represents extreme temperature conditions. Consequently, the heatwave indices derived from the CEI app can be considered a reliable representation of heatwave conditions in BC.
+
+# Precipitation and precipitation indices
+
+Further, we compared daily precipitation and precipitation-related climate extreme indices—R20mm (days with precipitation ≥ 20 mm) and PRCPTOT (annual total precipitation). The MSWX gridded data generally aligns with the observed station data in terms of the timing and frequency of daily precipitation events aligning visually with observed wet and dry periods (@fig-prcplinplt) however there is consistent underestimation of observed high magnitude precipitation events (@fig-prcp1on1plt). Moreover, there is generally poor correlation and negative bias on daily precipitation for higher elevation stations (@tbl-compcoefprcp).
+
+![Temporal evolution and comparison of daily total precipitation from station observations and corresponding values extracted from the MSWX gridded dataset at station locations.](cei_eval_results_plts_tbls/bc_sel_stns_dly_obs_mswx_prcp_comp_plt.png){#fig-prcplinplt width="100%"}
+
+![One-to-one plot comparing observed station daily precipitation with corresponding values extracted from the MSWX gridded dataset.](cei_eval_results_plts_tbls/oneonone_bc_sel_stns_dly_prcp_obs_mswx_plt.png){#fig-prcp1on1plt width="100%"}
+
+| Station ID | MAE   | RMSE  | Bias   | Corr (r) | IQD   |
+|:-----------|:------|:------|:-------|:---------|:------|
+| 1095018    | 1.730 | 3.470 | -0.010 | 0.370    | 0.016 |
+| 1103332    | 5.73  | 10.62 | 0.02   | 0.48     | 0.02  |
+| EAC        | 3.00  | 5.72  | -0.14  | 0.56     | 0.04  |
+
+: **Comparison coefficients between observed and MSWX daily precipitation data from 1980 to 2024 at three selected stations in BC.** {#tbl-compcoefprcp}
+
+Moreover, a one-to-one comparison of observed station data and MSWX-derived values for two precipitation-related climate indices—R20mm (number of days with precipitation ≥ 20 mm) and PRCPTOT (annual total wet-day precipitation)—shows that MSWX generally agrees with station-based indices at lower elevation sites (@fig-prcpindx1on1plt). However, at the higher elevation station (e.g., EAC), and particularly for higher-magnitude precipitation values, MSWX tends to underestimate both total precipitation and R20mm reinforcing what was observed in the comparison of the daily precipitation data highlighting MSWX’s limitations in accurately capturing extreme precipitation indices, especially in complex topographic regions.
+
+![One-to-one plots comparing R20mm and annual total precipitation (PRCPTOT) between observed data and MSWX-derived values for three selected stations.](cei_eval_results_plts_tbls/prcptot_r20mm_sel_stn_one_on_one_mswx_ceiapp_obs.png){#fig-prcpindx1on1plt width="100%"}
+
+# Summary
+
+This report provides a preliminary assessment of how well CEIs derived from the MSWX dataset represent climate extremes in BC and offers guidance to users on how to interpret and apply results from the CEIapp. Based on the analysis of SPEI, heatwave events, and precipitation-related indices, the following conclusions can be drawn:
+
+-   **SPEI Performance:** Although the 3-month SPEI values are comparable between the CEIapp and global SPEI database, the CEIapp-based SPEI shows greater spatial detail and better alignment with regional drought patterns. It also performs more consistently across longer accumulation periods (6- and 12-month), making it a more accurate representation of drought conditions in BC compared to the global SPEI datasets.
+
+-   **Heatwave and temperature extremes:** The MSWX daily temperature data effectively captures the extreme 2021 heatwave, with only a 0.5°C difference in mean maximum temperatures compared to observed station data. Long-term temperature also shows good agreement, indicating that MSWX reliably represents heatwave and temperature-related extremes conditions across the province.
+
+-   **Precipitation Indices:** While MSWX captures the temporal evolution of daily precipitation fairly well at lower magnitudes, it tends to underestimate high-magnitude precipitation events, especially in higher elevations. As a result, precipitation-related CEIs derived from MSWX are only moderately representative and should be used with caution, particularly when analyzing extremes or localized heavy precipitation events.
+
+This evaluation and comparison of CEIs and the input data used to calculate them in the CEIapp offer an initial level of confidence and insight into the (un)certainty of how well MSWX-based CEIs are represented. It aims to give users information on how they might want to approach the data and results from the CEIapp. However, it is important to note that this evaluation is based on a limited number of selected stations and may not fully represent the broader spatial performance across BC. A more comprehensive assessment across additional stations and regions is beyond the scope of this work. Users should use this as a guidance and exercise their own discretion when interpreting and utilizing the data and results provided by the CEIapp.
+
+# References
+
+::: {#refs}
+:::
+
+# Appendix
+
+Appendix 1: List of the CEIs with their definition, units and descriptions. Modified from <a href= "https://github.com/ARCCSS-extremes/climpact/blob/master/www/user_guide/Climpact_user_guide.md" > climpact R package user guide </a>.{#appendix1}
+
+| Index | Index \_name | Units | Definition | Description | Timescale |
+|:-----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+| CDD (cdd) | Consecutive Dry Days | days | Maximum number of consecutive dry days (when PR \< 1) | Longest dry spell | Ann |
+| CDDcoldn (cddcold18) | Cooling Degree Days | degree-days | Annual sum of TM - n (where n , n = 18) | A measure of the energy demand needed to cool a building | Ann |
+| CSDI (csdi) | Cold spell duration indicator | days | Annual number of days contributing to events where 6 or more consecutive days experience TN \< 10th percentile | Number of days contributing to a cold period (where the period has to be at least 6 days long) | Ann |
+| CSDId (csdi5) | User-defined CSDI | days | Annual number of days contributing to events where d or more consecutive days experience TN \< 10th percentile | Number of days contributing to a cold period (where the minimum length is 5) | Ann |
+| CWD (cwd) | Consecutive Wet Days | days | Maximum annual number of consecutive wet days (when PR \>= 1) | The longest wet spell | Ann |
+| DTR (dtr) | Daily Temperature Range | degrees_C | Mean difference between daily TX and daily TN | Average range of maximum and minimum temperature | Mon/Ann |
+| DTR (dtr) | Daily Temperature Range | degrees_C | Mean difference between daily TX and daily TN | Average range of maximum and minimum temperature | Mon/Ann |
+| FD (fd) | Frost Days | days | Number of days when TN \< 0 C | Days when minimum temperature is below 0C | Mon/Ann |
+| FD (fd) | Frost Days | days | Number of days when TN \< 0 C | Days when minimum temperature is below 0C | Mon/Ann |
+| GDDgrown (gddgrow10) | Growing Degree Days | degree-days | Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM \> n) | A measure of heat accumulation to predict plant and animal developmental rates | Ann |
+| GSL (gsl) | Growing Season Length | days | Annual length of days plant can growth | Length of time in which plants can grow (Annual number of days between the first occurrence of 6 consecutive days with TM \> 5 degrees_C and the first occurrence of 6 consecutive days with TM \< 5 C) | Ann |
+| HDDheatn (hddheat18) | Heating Degree Days | degree-days | Annual sum of n - TM (where n is a user-defined location-specific base temperature and TM \< n) | A measure of the energy demand needed to heat a building | Ann |
+| HW (hw) | Heatwave magnitude for Tx90 heatwaves | degC | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave magnitude for Tn90 heatwaves | degC | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave magnitude for EHF heatwaves | degC\^2 | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Coldwave magnitude for ECF coldwaves | degC\^2 | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave amplitude for Tx90 heatwaves | degC | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave amplitude for Tn90 heatwaves | degC | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave amplitude for EHF heatwaves | degC\^2 | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Coldwave amplitude for ECF coldwaves | degC\^2 | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave number for Tx90 heatwaves | heatwaves | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave number for Tn90 heatwaves | heatwaves | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave number for EHF heatwaves | heatwaves | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Coldwave number for ECF coldwaves | heatwaves | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave duration for Tx90 heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave duration for Tn90 heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave duration for EHF heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Coldwave duration for ECF coldwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave frequency for Tx90 heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave frequency for Tn90 heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Heatwave frequency for EHF heatwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| HW (hw) | Coldwave frequency for ECF coldwaves | days | Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture. | Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN | Ann |
+| ID (id) | Ice Days | days | Number of days when TX \< 0 C | Days when maximum temperature is below 0C | Mon/Ann |
+| ID (id) | Ice Days | days | Number of days when TX \< 0 C | Days when maximum temperature is below 0C | Mon/Ann |
+| PRCPTOT (prcptot) | Annual total wet-day precipitation | mm | Sum of daily PR \>= 1 | Total wet-day rainfall | Mon/Ann |
+| PRCPTOT (prcptot) | Annual total wet-day precipitation | mm | Sum of daily PR \>= 1 | Total wet-day rainfall | Mon/Ann |
+| R10mm (r10mm) | Number of heavy rain days | days | Number of days when PR \>= 10 mm | Days when rainfall is at least 10mm | Mon/Ann |
+| R10mm (r10mm) | Number of heavy rain days | days | Number of days when PR \>= 10 mm | Days when rainfall is at least 10mm | Mon/Ann |
+| R20mm (r20mm) | Number of very heavy rain days | days | Number of days when PR \>= 20 mm | Days when rainfall is at least 20mm | Mon/Ann |
+| R20mm (r20mm) | Number of very heavy rain days | days | Number of days when PR \>= 20 mm | Days when rainfall is at least 20mm | Mon/Ann |
+| Rnnmm (r30mm) | Number of customized rain days | days | Number of days when PR \>= nn | Days when rainfall is at least a user-specified number of mm | Mon/Ann |
+| Rnnmm (r30mm) | Number of customized rain days | days | Number of days when PR \>= nn | Days when rainfall is at least a user-specified number of mm | Mon/Ann |
+| R95p (r95p) | Total annual precipitation from heavy rain days | mm | Annual sum of daily PR \> 95th percentile | Amount of rainfall from very wet days | Ann |
+| R95pTOT (r95ptot) | Contribution from very wet days | \% | 100\*r95p / PRCPTOT | Fraction of total wet-day rainfall that comes from very wet days | Ann |
+| R99p (r99p) | Total annual precipitation from very heavy rain days | mm | Annual sum of daily PR \> 99th percentile | Amount of rainfall from extremely wet days | Ann |
+| R99pTOT (r99ptot) | Contribution from extremely wet days | \% | 100\*r99p / PRCPTOT | Fraction of total wet-day rainfall that comes from extremely wet days | Ann |
+| Rx1day (rx1day) | Max 1-day precipitation | mm | Maximum 1-day PR total | Maximum amount of rain that falls in one day | Mon/Ann |
+| Rx1day (rx1day) | Max 1-day precipitation | calendar day | Maximum 1-day PR total | Maximum amount of rain that falls in one day | Mon/Ann |
+| Rx1day (rx1day) | Max 1-day precipitation | mm | Maximum 1-day PR total | Maximum amount of rain that falls in one day | Mon/Ann |
+| Rx1day (rx1day) | Max 1-day precipitation | calendar day | Maximum 1-day PR total | Maximum amount of rain that falls in one day | Mon/Ann |
+| Rx5day (rx5day) | Max 5-day precipitation | mm | Maximum 5-day PR total | Maximum amount of rain that falls in five consecutive days | Mon/Ann |
+| Rx5day (rx5day) | Max 5-day precipitation | calendar day | Maximum 5-day PR total | Maximum amount of rain that falls in five consecutive days | Mon/Ann |
+| Rx5day (rx5day) | Max 5-day precipitation | mm | Maximum 5-day PR total | Maximum amount of rain that falls in five consecutive days | Mon/Ann |
+| Rx5day (rx5day) | Max 5-day precipitation | calendar day | Maximum 5-day PR total | Maximum amount of rain that falls in five consecutive days | Mon/Ann |
+| RXdday (rx7day) | User-defined consecutive days PR amount | mm | Maximum d-day PR total | Maximum amount of rain that falls in a user-specified period i | Mon/Ann |
+| RXdday (rx7day) | User-defined consecutive days PR amount | calendar day | Maximum d-day PR total | Maximum amount of rain that falls in a user-specified period i | Mon/Ann |
+| RXdday (rx7day) | User-defined consecutive days PR amount | mm | Maximum d-day PR total | Maximum amount of rain that falls in a user-specified period i | Mon/Ann |
+| RXdday (rx7day) | User-defined consecutive days PR amount | calendar day | Maximum d-day PR total | Maximum amount of rain that falls in a user-specified period i | Mon/Ann |
+| SDII (sdii) | Daily precipitation intensity | mm/day | Annual total PR divided by the number of wet days (when total PR \>= 1) | Average daily wet-day rainfall intensity | Ann |
+| SPEI (spei) | Standardised Precipitation Evapotranspiration Index | unitless | Standardised Precipitation Evapotranspiration Index | Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months | Mon |
+| SPEI (spei) | Standardised Precipitation Evapotranspiration Index | unitless | Standardised Precipitation Evapotranspiration Index | Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months | Mon |
+| SPEI (spei) | Standardised Precipitation Evapotranspiration Index | unitless | Standardised Precipitation Evapotranspiration Index | Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months | Mon |
+| SPI (spi) | Standardised Precipitation Index | unitless | Standardised Precipitation Index | Measure of 'drought' using the Standardised Precipitation Index on time scales of 3 months 6 months and 12 months | Mon |
+| SPI (spi) | Standardised Precipitation Index | unitless | Standardised Precipitation Index | Measure of 'drought' using the Standardised Precipitation Index on time scales of 3 months 6 months and 12 months | Mon |
+| SPI (spi) | Standardised Precipitation Index | unitless | Standardised Precipitation Index | Measure of 'drought' using the Standardised Precipitation Index on time scales of 3 months 6 months and 12 months | Mon |
+| SU (su) | Summer days | days | Number of days when TX \> 25 C | Days when maximum temperature exceeds 25C | Mon/Ann |
+| SU (su) | Summer days | days | Number of days when TX \> 25 C | Days when maximum temperature exceeds 25C | Mon/Ann |
+| TMge10 (tmge10) | Mean temperature of at least 10C | days | Number of days when TM \>= 10 C | Days when average temperature is at least 10C | Mon/Ann |
+| TMge10 (tmge10) | Mean temperature of at least 10C | days | Number of days when TM \>= 10 C | Days when average temperature is at least 10C | Mon/Ann |
+| TMge5 (tmge5) | Mean temperature of at least 5C | days | Number of days when TM \>= 5 C | Days when average temperature is at least 5C | Mon/Ann |
+| TMge5 (tmge5) | Mean temperature of at least 5C | days | Number of days when TM \>= 5 C | Days when average temperature is at least 5C | Mon/Ann |
+| TMlt10 (tmlt10) | Mean temperature below 10C | days | Number of days when TM \< 10 C | Days when average temperature is below 10C | Mon/Ann |
+| TMlt10 (tmlt10) | Mean temperature below 10C | days | Number of days when TM \< 10 C | Days when average temperature is below 10C | Mon/Ann |
+| TMlt5 (tmlt5) | Mean temperature below 5C | days | Number of days when TM \< 5 C | Days when average temperature is below 5C | Mon/Ann |
+| TMlt5 (tmlt5) | Mean temperature below 5C | days | Number of days when TM \< 5 C | Days when average temperature is below 5C | Mon/Ann |
+| TMm (tmm) | Mean daily mean temperature | degrees_C | Mean daily mean temperature | Average daily temperature | Mon/Ann |
+| TMm (tmm) | Mean daily mean temperature | degrees_C | Mean daily mean temperature | Average daily temperature | Mon/Ann |
+| TN10p (tn10p) | Amount of cold nights | \% | Percentage of days when TN \< 10th percentile | Fraction of days with cold night time temperatures | Ann |
+| TN10p (tn10p) | Amount of cold nights | \% | Percentage of days when TN \< 10th percentile | Fraction of days with cold night time temperatures | Ann |
+| TN90p (tn90p) | Amount of warm nights | \% | Percentage of days when TN \> 90th percentile | Fraction of days with warm night time temperatures | Ann |
+| TN90p (tn90p) | Amount of warm nights | \% | Percentage of days when TN \> 90th percentile | Fraction of days with warm night time temperatures | Ann |
+| TNlt2 (tnlt2) | Minimum temperature below 2C | days | Number of days when TN \< 2 C | Days when minimum temperature is below 2C | Mon/Ann |
+| TNlt2 (tnlt2) | Minimum temperature below 2C | days | Number of days when TN \< 2 C | Days when minimum temperature is below 2C | Mon/Ann |
+| TNltm2 (tnltm2) | Minimum temperature below -2C | days | Number of days when TN \< -2 C | Days when minimum temperature is below -2C | Mon/Ann |
+| TNltm2 (tnltm2) | Minimum temperature below -2C | days | Number of days when TN \< -2 C | Days when minimum temperature is below -2C | Mon/Ann |
+| TNltm20 (tnltm20) | Minimum temperature below -20C | days | Num |  |  |

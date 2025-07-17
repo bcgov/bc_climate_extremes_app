@@ -1,0 +1,125 @@
+Index,Index_name,Unit,Definition,Description,Timescale
+CDD (cdd),Consecutive Dry Days,days,Maximum number of consecutive dry days (when PR < 1 ),Longest dry spell,Ann
+CDDcoldn (cddcold18),Cooling Degree Days,degree-days,"Annual sum of TM - n (where n , n = 18)",A measure of the energy demand needed to cool a building,Ann
+CSDI (csdi),Cold spell duration indicator,days,Annual number of days contributing to events where 6 or more consecutive days experience TN < 10th percentile,Number of days contributing to a cold period (where the period has to be at least 6 days long),Ann
+CSDId (csdi5),User-defined CSDI,days,Annual number of days contributing to events where d or more consecutive days experience TN < 10th percentile,Number of days contributing to a cold period (where the minimum length is 5),Ann
+CWD (cwd),Consecutive Wet Days,days,Maximum annual number of consecutive wet days (when PR >= 1),The longest wet spell,Ann
+DTR (dtr),Daily Temperature Range,degrees_C,Mean difference between daily TX and daily TN,Average range of maximum and minimum temperature,Mon/Ann
+DTR (dtr),Daily Temperature Range,degrees_C,Mean difference between daily TX and daily TN,Average range of maximum and minimum temperature,Mon/Ann
+FD (fd),Frost Days,days,Number of days when TN < 0 C,Days when minimum temperature is below 0C,Mon/Ann
+FD (fd),Frost Days,days,Number of days when TN < 0 C,Days when minimum temperature is below 0C,Mon/Ann
+GDDgrown (gddgrow10),Growing Degree Days,degree-days,Annual sum of TM - n (where n is a user-defined location-specific base temperature and TM > n),A measure of heat accumulation to predict plant and animal developmental rates,Ann
+GSL (gsl),Growing Season Length,days,Annual length of days plant can growth,Length of time in which plants can grow (Annual number of days between the first occurrence of 6 consecutive days with TM > 5 degrees_C and the first occurrence of 6 consecutive days with TM < 5 C),Ann
+HDDheatn (hddheat18),Heating Degree Days,degree-days,Annual sum of n - TM (where n is a user-defined location-specific base temperature and TM < n),A measure of the energy demand needed to heat a building,Ann
+HW (hw),Heatwave magnitude for Tx90 heatwaves,degC,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave magnitude for Tn90 heatwaves,degC,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave magnitude for EHF heatwaves,degC^2,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Coldwave magnitude for ECF coldwaves ,degC^2,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave amplitude for Tx90 heatwaves ,degC,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave amplitude for Tn90 heatwaves ,degC,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave amplitude for EHF heatwaves ,degC^2,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Coldwave amplitude for ECF coldwaves ,degC^2,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave number for Tx90 heatwaves ,heatwaves,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave number for Tn90 heatwaves ,heatwaves,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave number for EHF heatwaves ,heatwaves,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Coldwave number for ECF coldwaves ,heatwaves,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave duration for Tx90 heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave duration for Tn90 heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave duration for EHF heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Coldwave duration for ECF coldwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave frequency for Tx90 heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave frequency for Tn90 heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Heatwave frequency for EHF heatwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+HW (hw),Coldwave frequency for ECF coldwaves ,days,"Heatwave and Coldwave duration (HWD), magnitude (HWD), Frequency (HWF) based on tempearture.",Annual Heat wave and Cold wave magnitude amplitude number duration and frequency calculated from TX and TN,Ann
+ID (id),Ice Days,days,Number of days when TX < 0 C,Days when maximum temperature is below 0C,Mon/Ann
+ID (id),Ice Days,days,Number of days when TX < 0 C,Days when maximum temperature is below 0C,Mon/Ann
+PRCPTOT (prcptot),Annual total wet-day precipitation,mm,Sum of daily PR >= 1,Total wet-day rainfall,Mon/Ann
+PRCPTOT (prcptot),Annual total wet-day precipitation,mm,Sum of daily PR >= 1,Total wet-day rainfall,Mon/Ann
+R10mm (r10mm),Number of heavy rain days,days,Number of days when PR >= 10 mm,Days when rainfall is at least 10mm,Mon/Ann
+R10mm (r10mm),Number of heavy rain days,days,Number of days when PR >= 10 mm,Days when rainfall is at least 10mm,Mon/Ann
+R20mm (r20mm),Number of very heavy rain days,days,Number of days when PR >= 20 mm,Days when rainfall is at least 20mm,Mon/Ann
+R20mm (r20mm),Number of very heavy rain days,days,Number of days when PR >= 20 mm,Days when rainfall is at least 20mm,Mon/Ann
+Rnnmm (r30mm),Number of customised rain days,days,Number of days when PR >= nn,Days when rainfall is at least a user-specified number of mm,Mon/Ann
+Rnnmm (r30mm),Number of customised rain days,days,Number of days when PR >= nn,Days when rainfall is at least a user-specified number of mm,Mon/Ann
+R95p (r95p),Total annual precipitation from heavy rain days,mm,Annual sum of daily PR > 95th percentile,Amount of rainfall from very wet days,Ann
+R95pTOT (r95ptot),Contribution from very wet days,%,100*r95p / PRCPTOT,Fraction of total wet-day rainfall that comes from very wet days,Ann
+R99p (r99p),Total annual precipitation from very heavy rain days,mm,Annual sum of daily PR > 99th percentile,Amount of rainfall from extremely wet days,Ann
+R99pTOT (r99ptot),Contribution from extremely wet days,%,100*r99p / PRCPTOT,Fraction of total wet-day rainfall that comes from extremely wet days,Ann
+Rx1day (rx1day),Max 1-day precipitation,mm,Maximum 1-day PR total,Maximum amount of rain that falls in one day,Mon/Ann
+Rx1day (rx1day),Max 1-day precipitation,calendar day,Maximum 1-day PR total,Maximum amount of rain that falls in one day,Mon/Ann
+Rx1day (rx1day),Max 1-day precipitation,mm,Maximum 1-day PR total,Maximum amount of rain that falls in one day,Mon/Ann
+Rx1day (rx1day),Max 1-day precipitation,calendar day,Maximum 1-day PR total,Maximum amount of rain that falls in one day,Mon/Ann
+Rx5day (rx5day),Max 5-day precipitation,mm,Maximum 5-day PR total,Maximum amount of rain that falls in five consecutive days,Mon/Ann
+Rx5day (rx5day),Max 5-day precipitation,calendar day,Maximum 5-day PR total,Maximum amount of rain that falls in five consecutive days,Mon/Ann
+Rx5day (rx5day),Max 5-day precipitation,mm,Maximum 5-day PR total,Maximum amount of rain that falls in five consecutive days,Mon/Ann
+Rx5day (rx5day),Max 5-day precipitation,calendar day,Maximum 5-day PR total,Maximum amount of rain that falls in five consecutive days,Mon/Ann
+RXdday (rx7day),User-defined consecutive days PR amount,mm,Maximum d-day PR total,Maximum amount of rain that falls in a user-specified period i,Mon/Ann
+RXdday (rx7day),User-defined consecutive days PR amount,calendar day,Maximum d-day PR total,Maximum amount of rain that falls in a user-specified period i,Mon/Ann
+RXdday (rx7day),User-defined consecutive days PR amount,mm,Maximum d-day PR total,Maximum amount of rain that falls in a user-specified period i,Mon/Ann
+RXdday (rx7day),User-defined consecutive days PR amount,calendar day,Maximum d-day PR total,Maximum amount of rain that falls in a user-specified period i,Mon/Ann
+SDII (sdii),Daily precipitation intensity,mm/day,Annual total PR divided by the number of wet days (when total PR >= 1 ),Average daily wet-day rainfall intensity,Ann
+SPEI (spei),Standardised Precipitation Evapotranspiration Index,unitless,Standardised Precipitation Evapotranspiration Index,Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months,Mon
+SPEI (spei),Standardised Precipitation Evapotranspiration Index,unitless,Standardised Precipitation Evapotranspiration Index,Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months,Mon
+SPEI (spei),Standardised Precipitation Evapotranspiration Index,unitless,Standardised Precipitation Evapotranspiration Index,Measure of 'drought' using the Standardised Precipitation Evapotranspiration Index on time scales of 3 months 6 months and 12 months,Mon
+SPI (spi),Standardised Precipitation Index,unitless,Standardised Precipitation Index,Measure of 'drought' using the Standardised Precipitation Index on time scales of 3  months 6 months and 12 months,Mon
+SPI (spi),Standardised Precipitation Index,unitless,Standardised Precipitation Index,Measure of 'drought' using the Standardised Precipitation Index on time scales of 3  months 6 months and 12 months,Mon
+SPI (spi),Standardised Precipitation Index,unitless,Standardised Precipitation Index,Measure of 'drought' using the Standardised Precipitation Index on time scales of 3  months 6 months and 12 months,Mon
+SU (su),Summer days,days,Number of days when TX > 25 C,Days when maximum temperature exceeds 25C,Mon/Ann
+SU (su),Summer days,days,Number of days when TX > 25 C,Days when maximum temperature exceeds 25C,Mon/Ann
+TMge10 (tmge10),Mean temperature of at least 10C,days,Number of days when TM >= 10 C,Days when average temperature is at least 10C,Mon/Ann
+TMge10 (tmge10),Mean temperature of at least 10C,days,Number of days when TM >= 10 C,Days when average temperature is at least 10C,Mon/Ann
+TMge5 (tmge5),Mean temperature of at least 5C,days,Number of days when TM >= 5 C,Days when average temperature is at least 5C,Mon/Ann
+TMge5 (tmge5),Mean temperature of at least 5C,days,Number of days when TM >= 5 C,Days when average temperature is at least 5C,Mon/Ann
+TMlt10 (tmlt10),Mean temperature below 10C,days,Number of days when TM < 10 C,Days when average temperature is below 10C,Mon/Ann
+TMlt10 (tmlt10),Mean temperature below 10C,days,Number of days when TM < 10 C,Days when average temperature is below 10C,Mon/Ann
+TMlt5 (tmlt5),Mean temperature below 5C,days,Number of days when TM < 5 C,Days when average temperature is below 5C,Mon/Ann
+TMlt5 (tmlt5),Mean temperature below 5C,days,Number of days when TM < 5 C,Days when average temperature is below 5C,Mon/Ann
+TMm (tmm),Mean daily mean temperature,degrees_C,Mean daily mean temperature,Average daily temperature,Mon/Ann
+TMm (tmm),Mean daily mean temperature,degrees_C,Mean daily mean temperature,Average daily temperature,Mon/Ann
+TN10p (tn10p),Amount of cold nights,%,Percentage of days when TN < 10th percentile,Fraction of days with cold night time temperatures,Ann
+TN10p (tn10p),Amount of cold nights,%,Percentage of days when TN < 10th percentile,Fraction of days with cold night time temperatures,Ann
+TN90p (tn90p),Amount of warm nights,%,Percentage of days when TN > 90th percentile,Fraction of days with warm night time temperatures,Ann
+TN90p (tn90p),Amount of warm nights,%,Percentage of days when TN > 90th percentile,Fraction of days with warm night time temperatures,Ann
+TNlt2 (tnlt2),Minimum temperature below 2C,days,Number of days when TN < 2 C,Days when minimum temperature is below 2C,Mon/Ann
+TNlt2 (tnlt2),Minimum temperature below 2C,days,Number of days when TN < 2 C,Days when minimum temperature is below 2C,Mon/Ann
+TNltm2 (tnltm2),Minimum temperature below -2C,days,Number of days when TN < -2 C,Days when minimum temperature is below -2C,Mon/Ann
+TNltm2 (tnltm2),Minimum temperature below -2C,days,Number of days when TN < -2 C,Days when minimum temperature is below -2C,Mon/Ann
+TNltm20 (tnltm20),Minimum temperature below -20C,days,Number of days when TN < -20 C,Days when minimum temperature is below -20C,Mon/Ann
+TNltm20 (tnltm20),Minimum temperature below -20C,days,Number of days when TN < -20 C,Days when minimum temperature is below -20C,Mon/Ann
+TNm (tnm),Mean daily minimum temperature,degrees_C,Mean daily minimum temperature,Average daily minimum temperature,Mon/Ann
+TNm (tnm),Mean daily minimum temperature,degrees_C,Mean daily minimum temperature,Average daily minimum temperature,Mon/Ann
+TNn (tnn),Min daily minimum temperature,degrees_C,Coldest daily TN,Coldest night,Mon/Ann
+TNn (tnn),Min daily minimum temperature,calendar day,Coldest daily TN,Coldest night,Mon/Ann
+TNn (tnn),Min daily minimum temperature,degrees_C,Coldest daily TN,Coldest night,Mon/Ann
+TNn (tnn),Min daily minimum temperature,calendar day,Coldest daily TN,Coldest night,Mon/Ann
+TNx (tnx),Max daily minimum temperature,degrees_C,Warmest daily TN,Hottest night,Mon/Ann
+TNx (tnx),Max daily minimum temperature,calendar day,Warmest daily TN,Hottest night,Mon/Ann
+TNx (tnx),Max daily minimum temperature,degrees_C,Warmest daily TN,Hottest night,Mon/Ann
+TNx (tnx),Max daily minimum temperature,calendar day,Warmest daily TN,Hottest night,Mon/Ann
+TR (tr),Tropical nights,days,Number of days when TN > 20 C,Days when minimum temperature exceeds 20C,Mon/Ann
+TR (tr),Tropical nights,days,Number of days when TN > 20 C,Days when minimum temperature exceeds 20C,Mon/Ann
+TX10p (tx10p),Amount of cool days,%,Percentage of days when TX < 10th percentile,Fraction of days with cool day time temperatures,Ann
+TX10p (tx10p),Amount of cool days,%,Percentage of days when TX < 10th percentile,Fraction of days with cool day time temperatures,Ann
+TXdTNd (tx3tn3),User-defined consecutive number of hot days and nights,events,"Annual count of d consecutive days where both TX > 95th percentile and TN > 95th percentile, where 10 >= d >= 2",Total consecutive hot days and hot nights (where consecutive periods are 3 days),Ann
+TX90p (tx90p),Amount of hot days,%,Percentage of days when TX > 90th percentile,Fraction of days with hot day time temperatures,Ann
+TX90p (tx90p),Amount of hot days,%,Percentage of days when TX > 90th percentile,Fraction of days with hot day time temperatures,Ann
+TX95t (tx95t),Value of 95th percentile of maximum temperature,degrees_C,Value of 95th percentile of TX,Daily Value of 95th percentile of TX,Daily
+TXbdTNbd (txb3tnb3),User-defined consecutive number of cold days and nights,events,"Annual number of d consecutive days where both TX < 5th percentile and TN < 5th percentile, where 10 >= d >=2",Total consecutive cold days and cold nights (where consecutive periods are 3 days),Ann
+TXge30 (txge30),Maximum temperature of at least 30C,days,Number of days when TX >= 30 C,Days when maximum temperature is at least 30C,Mon/Ann
+TXge30 (txge30),Maximum temperature of at least 30C,days,Number of days when TX >= 30 C,Days when maximum temperature is at least 30C,Mon/Ann
+TXge35 (txge35),Maximum temperature of at least 35C,days,Number of days when TX >= 35 C,Days when maximum temperature is at least 35C,Mon/Ann
+TXge35 (txge35),Maximum temperature of at least 35C,days,Number of days when TX >= 35 C,Days when maximum temperature is at least 35C,Mon/Ann
+TXgt50p (txgt50p),Fraction of days with temperatures above the median,%,Percentage of days where TX > 50th percentile,Fraction of days with above-median temperature,Mon/Ann
+TXgt50p (txgt50p),Fraction of days with temperatures above the median,%,Percentage of days where TX > 50th percentile,Fraction of days with above-median temperature,Mon/Ann
+TXm (txm),Mean daily maximum temperature,degrees_C,Mean daily maximum temperature,Average daily maximum temperature,Mon/Ann
+TXm (txm),Mean daily maximum temperature,degrees_C,Mean daily maximum temperature,Average daily maximum temperature,Mon/Ann
+TXn (txn),Min daily maximum temperature,degrees_C,Coldest daily TX,Coldest day,Mon/Ann
+TXn (txn),Min daily maximum temperature,calendar day,Coldest daily TX,Coldest day,Mon/Ann
+TXn (txn),Min daily maximum temperature,degrees_C,Coldest daily TX,Coldest day,Mon/Ann
+TXn (txn),Min daily maximum temperature,calendar day,Coldest daily TX,Coldest day,Mon/Ann
+TXx (txx),Max daily maximum temperature,degrees_C,Warmest daily TX,Hottest day,Mon/Ann
+TXx (txx),Max daily maximum temperature,calendar day,Warmest daily TX,Hottest day,Mon/Ann
+TXx (txx),Max daily maximum temperature,degrees_C,Warmest daily TX,Hottest day,Mon/Ann
+TXx (txx),Max daily maximum temperature,calendar day,Warmest daily TX,Hottest day,Mon/Ann
+WSDI (wsdi),Warm spell duration indicator,days,Annual number of days contributing to events where 6 or more consecutive days experience TX > 90th percentile,Number of days contributing to a warm period (where the period has to be at least 6 days long),Ann
+WSDId (wsdi5),User-defined WSDI,days,Annual number of days contributing to events where d or more consecutive days experience TX > 90th percentile,Number of days contributing to a warm period (where the minimum length is 5),Ann
