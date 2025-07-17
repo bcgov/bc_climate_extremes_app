@@ -42,11 +42,15 @@ library('colorspace')
 library('cptcity')
 
 # Load and process input data -----------------------------
-## Paths --
+## Paths -------------------
 # setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 shp_fls_pth <- './shapefiles/'
-cei_ano_dt_pth <-  './mswx_wna_cei_ano_clm_dt/'
-cei_sptl_trn_dt_pth <- './cei_spatial_trend/'
+cei_ano_dt_pth <-  './mswx_wna_cei_ano_clm_trn_dt/'
+cei_eval_rep_pth <- './cei_eval_comp_report/'
+
+#add resource path to read evaluation html directly without moving to wwww
+shiny::addResourcePath('report', 'cei_eval_comp_report')
+
 
 # Credit  -----
 plt_wtrmrk <-
@@ -229,6 +233,9 @@ cei_ano_dt_mtdt %<>%
   )
 cei_ano_dt_mtdt
 
+# Quarto CEI evaluation report (Quarto HTML)-------------------------------
+# quarto::quarto_render(paste0(cei_eval_rep_pth,"2_bc_ceiapp_eval_comp.qmd"), output_format = "html")
+
 # Filtering parameters -----------------
 cei_ano_dt_mtdt
 
@@ -363,11 +370,17 @@ ui <- fluidPage(
       )
     ),
 
-    ## Extreme indices analysis methods and validation ---------------------
+    ## CEI methods and validation ---------------------
     tabPanel(
       title = "Methods and validation",
-      value = 'meth_val',
-      withMathJax(includeMarkdown("cei_methods_validation.Rmd")),
+      # value = 'meth_val',
+      # withMathJax(includeMarkdown("cei_methods_validation.Rmd")),
+      tags$iframe(
+        src = "report/2_bc_ceiapp_eval_comp.html",
+        width = "100%",
+        height = "2000px",
+        frameborder = "0"
+      ),
 
       ###### footer ---------------------------
       column(
@@ -1173,9 +1186,9 @@ server <- function(session, input, output) {
   })
 
   # CEI metadata table ---------------------------------
-
+  cei_ano_dt_mtdt
   cei_ano_dt_mtdt %>%
-    distinct(org_indx, .keep_all = T) %>%
+    distinct(indx, .keep_all = T) %>%
     mutate(`Index Name` = paste0(long_name, ' (', indx, ')')) %>%
     dplyr::select(Category = cat_display,`Index Name`,
                   Definition  = definition,Description =description, Unit = unt, Timescale = timescale)  %>%
@@ -1211,7 +1224,7 @@ server <- function(session, input, output) {
     ) -> cei_mtdt_gt_tbl
   cei_mtdt_gt_tbl
 
-   output$cei_metadt_tbl <- render_gt(expr = cei_mtdt_gt_tbl)
+  output$cei_metadt_tbl <- render_gt(expr = cei_mtdt_gt_tbl)
 
 
   # CEI definition text:: reactive ----------------------------------------
@@ -2744,7 +2757,6 @@ Anomalies are calculated as the measure of departure from the climatological ave
 Should you have any inquiries or wish to provide feedback, please do not hesitate to use
 <a href='https://forms.office.com/r/wN0QYAvSTZ' target='_blank'>this feedback form</a> or write to
 <a href='mailto:Aseem.Sharma@gov.bc.ca'><b>Aseem Sharma</b></a>.</p>")
-
 
   })
 
