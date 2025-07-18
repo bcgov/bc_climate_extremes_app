@@ -234,7 +234,7 @@ cei_ano_dt_mtdt %<>%
 cei_ano_dt_mtdt
 
 # Quarto CEI evaluation report (Quarto HTML)-------------------------------
-# quarto::quarto_render(paste0(cei_eval_rep_pth,"2_bc_ceiapp_eval_comp.qmd"), output_format = "html")
+quarto::quarto_render(paste0(cei_eval_rep_pth,"2_bc_ceiapp_eval_comp.qmd"), output_format = "html")
 
 # Filtering parameters -----------------
 cei_ano_dt_mtdt

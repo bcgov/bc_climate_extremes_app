@@ -34,7 +34,7 @@ format:
   embed-resources: true
   self-contained: true
   theme: united 
-  css: style.css
+#  css: style.css
 #  pdf:
 #   lof: true
 #   lot: false
@@ -180,7 +180,7 @@ This document presents an evaluation of selected **Climate Extremes Indices (CEI
 
 The <a href="https://bcgov-env.shinyapps.io/bc_climate_extremes_app/" target="_blank"> CEIapp </a> provides a suite of over 70 CEIs, derived from the Multi-Source Weather <a href="https://www.gloh2o.org/mswx/" target="_blank"> (MSWX) </a> gridded dataset [@Beck2022], which includes daily minimum and maximum temperatures and precipitation across western North America. Several CEIs also incorporate spatial coordinates (latitude and longitude) and the month of the year in their calculations to account for spatial and seasonal variability. This dataset has a spatial resolution of **0.1° × 0.1°** and spans the period from **1979 to present**. For the current analysis, we limit the temporal extent to **2024**, the most recent year for which complete data were available. The app will be updated periodically to incorporate indices for subsequent years.
 
-Although the app includes over 70 CEIs (listed in [Appendix 1](#appendix-1)), the scope of this evaluation is limited to a subset of sector-relevant indices, as many of the indices are already well-defined and sufficiently described. Selected indices evaluated here include the **drought index SPEI**, the **heatwave-related indices**, and the **precipitation-related indices**.
+Although the app includes over 70 CEIs (listed in [Appendix 1](#appendix1)), the scope of this evaluation is limited to a subset of sector-relevant indices, as many of the indices are already well-defined and sufficiently described. Selected indices evaluated here include the **drought index SPEI**, the **heatwave-related indices**, and the **precipitation-related indices**.
 
 # Standardized Precipitation-Evapotranspiration Index (SPEI)
 
@@ -222,7 +222,7 @@ The calculated SPEI can be used to indicate the severity of drought with negativ
 
 : **Categories of drought condition based on SPEI values.** {#tbl-drght_cond}
 
-We compared our SPEI values with those from the **global SPEI database**, which provides long-term SPEI data (1950–2025) at **1° × 1°** spatial resolution using the **CRU TS 4.09** dataset (Harris et al., 2020). This database provides SPEI for accumulation periods ranging from 1 to 48 months. For our comparison, we focused on **3-, 6-, and 12-month periods** using a BC subset of the global dataset.
+We compared our SPEI values with those from the **global SPEI database**, which provides long-term SPEI data (1950–2025) at **1° × 1°** spatial resolution using the **CRU TS 4.09** dataset (@Harris2020). This database provides SPEI for accumulation periods ranging from 1 to 48 months. For our comparison, we focused on **3-, 6-, and 12-month periods** using a BC subset of the global dataset.
 
 @fig-speijl2023 shows a spatial comparison of SPEI across BC at three temporal scales—3, 6, and 12 months— for July 2023, one of the highest drought months. The figure indicates detailed drought conditions as shown by SPEI with the higher resolution outputs of the CEIapp (left panel) than the coarser-resolution global SPEI ( right panel). Although the pattern of SPEI is captured well across BC especially for 3-months period, it differs substantially for 6 and 12 months especially along the Coast Mountains region of BC. Furthermore, the SPEI calculated for CEIapp consistently indicates widespread drought conditions across BC for all three accumulation periods (3, 6, and 12 months). Drought severity intensifies with increasing accumulation periods, a pattern particularly evident in the 12-month SPEI map (@fig-speijl2023 a), which depicts pervasive drought throughout the province. In contrast, the global SPEI dataset exhibits greater spatial variability, with certain regions not indicating drought. While the SPEI from CEIapp suggests a more uniform and widespread drought pattern, the global SPEI database illustrates localized areas—particularly along the western coast—where drought conditions are less pronounced or absent in the global SPEI data. Given the inherently regional nature of drought, the extreme app’s SPEI appears to provide a more consistent and regionally appropriate representation of drought conditions in BC compared to the global dataset.
 
@@ -322,7 +322,10 @@ This evaluation and comparison of CEIs and the input data used to calculate them
 
 # Appendix
 
-Appendix 1: List of the CEIs with their definition, units and descriptions. Modified from <a href= "https://github.com/ARCCSS-extremes/climpact/blob/master/www/user_guide/Climpact_user_guide.md" > climpact R package user guide </a>.{#appendix1}
+##### Appendix 1: List of the CEIs with their definition, units and descriptions {#appendix1}
+
+Modified from <a href="https://github.com/ARCCSS-extremes/climpact/blob/master/www/user_guide/Climpact_user_guide.md">Climpact R package user guide</a>.
+
 
 | Index | Index \_name | Units | Definition | Description | Timescale |
 |:-----------|:-----------|:-----------|:-----------|:-----------|:-----------|
