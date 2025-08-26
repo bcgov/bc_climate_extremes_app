@@ -234,7 +234,7 @@ cei_ano_dt_mtdt %<>%
 cei_ano_dt_mtdt
 
 # Quarto CEI evaluation report (Quarto HTML)-------------------------------
-quarto::quarto_render(paste0(cei_eval_rep_pth,"2_bc_ceiapp_eval_comp.qmd"), output_format = "html")
+# quarto::quarto_render(paste0(cei_eval_rep_pth,"2_bc_ceiapp_eval_comp.qmd"), output_format = "html")
 
 # Filtering parameters -----------------
 cei_ano_dt_mtdt
@@ -370,63 +370,7 @@ ui <- fluidPage(
       )
     ),
 
-    ## CEI methods and validation ---------------------
-    tabPanel(
-      title = "Methods and validation",
-      # value = 'meth_val',
-      # withMathJax(includeMarkdown("cei_methods_validation.Rmd")),
-      tags$iframe(
-        src = "report/2_bc_ceiapp_eval_comp.html",
-        width = "100%",
-        height = "2000px",
-        frameborder = "0"
-      ),
-
-      ###### footer ---------------------------
-      column(
-        width = 12,
-        style = "background-color:#003366; border-top:2px solid #fcba19;",
-        column(
-          width = 12,
-          style = "background-color:#003366; border-top:2px solid #fcba19;",
-          tags$footer(
-            class = "footer",
-            tags$div(
-              class = "container",
-              style = "display:flex; justify-content:center; flex-direction:column; text-align:center; height:46px;",
-              tags$ul(
-                style = "display:flex; flex-direction:row; flex-wrap:wrap; margin:0; list-style:none; align-items:center; height:100%;",
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/gov/content/home", "Home", style = "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                ),
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/gov/content/home/disclaimer", "Disclaimer", style =
-                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                ),
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/gov/content/home/privacy", "Privacy", style =
-                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                ),
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/gov/content/home/accessibility", "Accessibility", style =
-                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                ),
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/gov/content/home/copyright", "Copyright", style =
-                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                ),
-                tags$li(
-                  a(href = "https://www2.gov.bc.ca/StaticWebResources/static/gov3/html/contact-us.html", "Contact", style =
-                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
-                )
-              )
-            )
-          )
-        )
-      )
-    ),
-
-    ## CEI App page ----------------------------
+     ## CEI App page ----------------------------
     tabPanel(
       title = "Climate Extremes App",
       value = 'cei_app',
@@ -759,6 +703,63 @@ ui <- fluidPage(
         )
       )
     ),
+
+    ## CEI methods and validation ---------------------
+    tabPanel(
+      title = "Evaluation - validation",
+      # value = 'meth_val',
+      # withMathJax(includeMarkdown("cei_methods_validation.Rmd")),
+      tags$iframe(
+        src = "report/2_bc_ceiapp_eval_comp.html",
+        width = "100%",
+        height = "2000px",
+        frameborder = "0"
+      ),
+
+      ###### footer ---------------------------
+      column(
+        width = 12,
+        style = "background-color:#003366; border-top:2px solid #fcba19;",
+        column(
+          width = 12,
+          style = "background-color:#003366; border-top:2px solid #fcba19;",
+          tags$footer(
+            class = "footer",
+            tags$div(
+              class = "container",
+              style = "display:flex; justify-content:center; flex-direction:column; text-align:center; height:46px;",
+              tags$ul(
+                style = "display:flex; flex-direction:row; flex-wrap:wrap; margin:0; list-style:none; align-items:center; height:100%;",
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/gov/content/home", "Home", style = "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                ),
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/gov/content/home/disclaimer", "Disclaimer", style =
+                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                ),
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/gov/content/home/privacy", "Privacy", style =
+                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                ),
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/gov/content/home/accessibility", "Accessibility", style =
+                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                ),
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/gov/content/home/copyright", "Copyright", style =
+                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                ),
+                tags$li(
+                  a(href = "https://www2.gov.bc.ca/StaticWebResources/static/gov3/html/contact-us.html", "Contact", style =
+                      "font-size:1em; font-weight:normal; color:white; padding-left:5px; padding-right:5px; border-right:1px solid #4b5e7e;")
+                )
+              )
+            )
+          )
+        )
+      )
+    ),
+
 
     ## Feedback and links --------------------------
     tabPanel(
@@ -2755,7 +2756,7 @@ server <- function(session, input, output) {
 MSWX daily data </a> to calculate the anomalies and climatology.
 Anomalies are calculated as the measure of departure from the climatological averages spanning from 1981 to 2010.
 Should you have any inquiries or wish to provide feedback, please do not hesitate to use
-<a href='https://forms.office.com/r/wN0QYAvSTZ' target='_blank'>this feedback form</a> or write to
+<a href='https://forms.cloud.microsoft/r/iT9a0nyMgP' target='_blank'>this feedback form</a> or write to
 <a href='mailto:Aseem.Sharma@gov.bc.ca'><b>Aseem Sharma</b></a>.</p>")
 
   })
