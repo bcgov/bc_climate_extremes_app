@@ -282,7 +282,7 @@ ui <- fluidPage(
         width = 12,
         wellPanel(
           HTML(
-            "<h3><b>BC climate extremes app</b>: Data and visualization of changing climate extreme indices (CEI) in British Columbia (BC) </h2>"
+            "<h3><b>BC climate extremes app (CEIapp) </b>: Data and visualization of changing climate extreme indices (CEI) in British Columbia (BC) </h2>"
           )),
         includeMarkdown("intro_bc_cei_app.Rmd"),
         gt_output("cei_metadt_tbl"),
@@ -1194,12 +1194,36 @@ server <- function(session, input, output) {
     dplyr::select(Category = cat_display,`Index Name`,
                   Definition  = definition,Description =description, Unit = unt, Timescale = timescale)  %>%
     arrange(Category,`Index Name`)%>%
+    mutate(
+      # Definition: only change for Heatwave/Coldwave
+      Definition = case_when(
+        `Category` %in% c("Heatwave", "Coldwave") ~ str_replace(
+          `Index Name`,
+          ".*(amplitude|duration|frequency|magnitude|number).*?(EHF|Tx90|Tn90|ECF).*",
+          paste(`Category`, "\\1 based on \\2")
+        ),
+        TRUE ~ Definition
+      ),
+
+      # Description rules
+      Description = case_when(
+        # Heatwave/Coldwave → same as Definition
+        `Category` %in% c("Heatwave", "Coldwave") ~ Definition,
+
+        # Drought: adjust description only
+        `Category` == "Drought" & str_detect(`Index Name`, "3mon") ~ str_remove_all(Description, "6 *months?|12 *months?"),
+        `Category` == "Drought" & str_detect(`Index Name`, "6mon") ~ str_remove_all(Description, "3 *months?|12 *months?"),
+        `Category` == "Drought" & str_detect(`Index Name`, "12mon") ~ str_remove_all(Description, "3 *months?|6 *months?"),
+
+        TRUE ~ Description
+      )
+    ) %>%
     gt(groupname_col = "Category")%>%
     tab_header(title = md("**Table: List of the CEIs with their definitions.**"),
     )%>%
     opt_align_table_header(align = "left")%>%
     tab_source_note(
-      source_note =md( "Source: *Climpact R software 'https://climpact-sci.org/'*")
+      source_note =md( "Modified from *Climpact R software 'https://climpact-sci.org/'*")
     )%>%
     tab_style(
       style = cell_text(weight = "bold"),
